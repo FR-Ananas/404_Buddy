@@ -5,9 +5,6 @@ body {
 }
 
 #chat-box {
-  width: 100%;
-  max-width: 500px;
-  margin: auto;
   background: white;
   padding: 10px;
   border-radius: 5px;
@@ -21,4 +18,37 @@ body {
   border: 1px solid #ddd;
   padding: 5px;
   background: #fff;
+}
+
+#users-box {
+  display: none;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  max-height: 300px;
+  overflow-y: auto;
+  transition: all 0.3s ease-in-out;
+}
+
+#users-box.visible {
+  display: block;
+}
+
+#user-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+#toggle-btn {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#toggle-btn:hover {
+  background-color: #0056b3;
 }
