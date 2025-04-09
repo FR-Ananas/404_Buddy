@@ -3,6 +3,16 @@ const username = localStorage.getItem('username');
 
 if (!username) window.location.href = 'login.html';
 
+const userColors = {};
+
+function getUserColor(username) {
+  if (!userColors[username]) {
+    const hue = Math.floor(Math.random() * 360);
+    userColors[username] = `hsl(${hue}, 70%, 85%)`;
+  }
+  return userColors[username];
+}
+
 socket.emit('login', username, (response) => {
   if (!response.success) {
     alert(response.message);
@@ -12,11 +22,11 @@ socket.emit('login', username, (response) => {
 
 socket.on('init', ({ users, messages }) => {
   users.forEach(addUserToList);
-  messages.forEach(m => addMessage(`${m.user}: ${m.text}`, { user: m.user }));
+  messages.forEach(m => addMessage(`${m.user}: ${m.text}`, { user: m.user, time: m.time }));
 });
 
-socket.on('chat-message', ({ user, text }) => {
-  addMessage(`${user}: ${text}`, { user: user });
+socket.on('chat-message', ({ user, text, time }) => {
+  addMessage(`${user}: ${text}`, { user, time });
 });
 
 socket.on('user-joined', (user) => {
@@ -47,18 +57,30 @@ function addMessage(msg, options = {}) {
   const div = document.createElement('div');
   div.classList.add('message-bubble');
 
-  // Appliquer un style différent pour les messages système ou pour l'utilisateur actuel
   if (options.system) {
     div.classList.add('system');
   } else if (options.user && options.user === username) {
     div.classList.add('you');
   }
 
-  div.textContent = msg;
+  if (options.user && !options.system) {
+    div.style.backgroundColor = getUserColor(options.user);
+  }
+
+  if (options.time) {
+    const timeTag = document.createElement('span');
+    timeTag.classList.add('timestamp');
+    timeTag.textContent = `🕒 ${options.time}`;
+    div.appendChild(timeTag);
+  }
+
+  const text = document.createElement('div');
+  text.textContent = msg;
+  div.appendChild(text);
+
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
 
-  // Les messages système disparaissent après 10 secondes
   if (options.system) {
     setTimeout(() => {
       div.remove();
