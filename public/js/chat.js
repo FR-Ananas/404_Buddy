@@ -10,7 +10,6 @@ socket.emit('login', username, (response) => {
   }
 });
 
-// Réception initiale des infos
 socket.on('init', ({ users, messages }) => {
   users.forEach(addUserToList);
   messages.forEach(m => addMessage(`${m.user}: ${m.text}`));
@@ -68,4 +67,9 @@ function updateUserList(users) {
   const userList = document.getElementById('user-list');
   userList.innerHTML = '';
   users.forEach(addUserToList);
+}
+
+function toggleUsers() {
+  const box = document.getElementById('users-box');
+  box.classList.toggle('visible');
 }
