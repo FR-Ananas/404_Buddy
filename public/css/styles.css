@@ -73,7 +73,7 @@ body {
 }
 
 .message-bubble.you {
-  background-color: #d1ecf1;
+  background-color: #d2b48c; /* brun clair */
 }
 
 .message-bubble.system {
