@@ -149,3 +149,30 @@ html, body {
     width: 250px;
   }
 }
+/* 📱 MOBILE : largeur fixée propre, centrée */
+@media (max-width: 767px) {
+  #main-container {
+    width: 100%;
+    max-width: 95%;
+    min-width: 95%;
+    height: 90vh;
+    margin: auto;
+  }
+
+  .message-bubble {
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+  }
+
+  #chat-controls input,
+  #chat-controls button {
+    font-size: 1rem;
+  }
+
+  #users-box {
+    width: 90%;
+    max-width: 300px;
+  }
+}
