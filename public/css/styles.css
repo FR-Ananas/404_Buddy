@@ -8,10 +8,9 @@ html, body {
   overflow-x: hidden;
 }
 
-/* 🧱 Par défaut : layout fluide (pour tablette et téléphone par défaut) */
+/* ========== STRUCTURE GÉNÉRALE ========== */
 #main-container {
   width: 100%;
-  max-width: 100%;
   height: 90vh;
   margin: auto;
   background: white;
@@ -61,7 +60,7 @@ html, body {
   overflow: hidden;
 }
 
-/* ========== ZONE MESSAGES ========== */
+/* ========== MESSAGES ========== */
 #messages {
   flex: 1;
   overflow-y: auto;
@@ -133,11 +132,12 @@ html, body {
   display: block;
 }
 
-/* 🖥️ PC uniquement : largeur fixe et propre */
+/* ========== 🖥️ FIXE PC ========== */
 @media (min-width: 1024px) {
   #main-container {
+    width: 1000px;
+    min-width: 1000px;
     max-width: 1000px;
-    min-width: 900px;
   }
 
   #chat-controls input,
@@ -150,20 +150,24 @@ html, body {
   }
 }
 
-/* 📱 MOBILE uniquement : largeur fixée et centrée */
+/* ========== 📱 FIXE MOBILE ========== */
 @media (max-width: 767px) {
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   #main-container {
-    width: 95%;
-    max-width: 95%;
-    min-width: 95%;
+    width: 360px;
+    min-width: 360px;
+    max-width: 360px;
     height: 90vh;
-    margin: auto;
   }
 
   .message-bubble {
     max-width: 100%;
     word-break: break-word;
-    overflow-wrap: break-word;
     white-space: pre-wrap;
   }
 
@@ -173,7 +177,6 @@ html, body {
   }
 
   #users-box {
-    width: 90%;
-    max-width: 300px;
+    width: 300px;
   }
 }
