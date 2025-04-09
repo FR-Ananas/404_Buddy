@@ -1,3 +1,4 @@
+/* ========== BASE ========= */
 html, body {
   margin: 0;
   padding: 0;
@@ -5,12 +6,16 @@ html, body {
   background-color: #f4f4f4;
   font-family: Arial, sans-serif;
   overflow: hidden;
+  overflow-x: hidden;
 }
 
+/* ========== STRUCTURE ========= */
 #main-container {
-  width: 95%;
+  width: 100%;
   max-width: 900px;
+  min-width: 900px; /* 👈 Forcé dès le départ */
   height: 90vh;
+  margin: auto;
   background: white;
   border-radius: 10px;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
@@ -20,7 +25,7 @@ html, body {
   overflow: hidden;
 }
 
-/* Menu utilisateur */
+/* ========== MENU UTILISATEUR ========= */
 #users-toggle {
   position: absolute;
   top: 10px;
@@ -47,7 +52,7 @@ html, body {
   overflow-y: auto;
 }
 
-/* Chat box */
+/* ========== CHAT ========= */
 #chat-box {
   flex: 1;
   display: flex;
@@ -58,7 +63,7 @@ html, body {
   overflow: hidden;
 }
 
-/* Message zone */
+/* ========== ZONE MESSAGES ========= */
 #messages {
   flex: 1;
   overflow-y: auto;
@@ -70,7 +75,7 @@ html, body {
   gap: 6px;
 }
 
-/* Chat controls */
+/* ========== CONTROLS ========= */
 #chat-controls {
   display: flex;
   gap: 10px;
@@ -100,12 +105,12 @@ html, body {
   background-color: #0056b3;
 }
 
-/* Bulles */
+/* ========== BULLES ========= */
 .message-bubble {
   background-color: #e0e0e0;
   padding: 8px 12px;
   border-radius: 15px;
-  max-width: 80%;
+  max-width: 100%;
   word-wrap: break-word;
   word-break: break-word;
   white-space: pre-wrap;
@@ -130,10 +135,11 @@ html, body {
   display: block;
 }
 
-/* 📐 Adaptation PC étendue */
+/* ========== PC ÉTENDU ========= */
 @media (min-width: 1024px) {
   #main-container {
     max-width: 1000px;
+    min-width: 1000px;
   }
 
   #chat-controls input,
