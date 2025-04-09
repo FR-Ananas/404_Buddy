@@ -8,7 +8,10 @@ html, body {
   overflow-x: hidden;
 }
 
-/* ========== STRUCTURE GÉNÉRALE ========== */
+.hidden {
+  display: none;
+}
+
 #main-container {
   width: 100%;
   height: 90vh;
@@ -22,7 +25,6 @@ html, body {
   overflow: hidden;
 }
 
-/* ========== MENU UTILISATEUR ========== */
 #users-toggle {
   position: absolute;
   top: 10px;
@@ -49,7 +51,6 @@ html, body {
   overflow-y: auto;
 }
 
-/* ========== CHAT ========== */
 #chat-box {
   flex: 1;
   display: flex;
@@ -60,7 +61,6 @@ html, body {
   overflow: hidden;
 }
 
-/* ========== MESSAGES ========== */
 #messages {
   flex: 1;
   overflow-y: auto;
@@ -72,7 +72,6 @@ html, body {
   gap: 6px;
 }
 
-/* ========== CONTROLS ========== */
 #chat-controls {
   display: flex;
   gap: 10px;
@@ -102,7 +101,6 @@ html, body {
   background-color: #0056b3;
 }
 
-/* ========== BULLES ========== */
 .message-bubble {
   background-color: #e0e0e0;
   padding: 8px 12px;
@@ -132,7 +130,7 @@ html, body {
   display: block;
 }
 
-/* ========== 🖥️ FIXE PC ========== */
+/* 🖥️ PC */
 @media (min-width: 1024px) {
   #main-container {
     width: 1000px;
@@ -150,7 +148,7 @@ html, body {
   }
 }
 
-/* ========== 📱 FIXE MOBILE ========== */
+/* 📱 Téléphone */
 @media (max-width: 767px) {
   body {
     display: flex;
