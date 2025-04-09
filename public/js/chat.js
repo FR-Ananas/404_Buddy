@@ -3,16 +3,6 @@ const username = localStorage.getItem('username');
 
 if (!username) window.location.href = 'login.html';
 
-const userColors = {};
-
-function getUserColor(username) {
-  if (!userColors[username]) {
-    const hue = Math.floor(Math.random() * 360);
-    userColors[username] = `hsl(${hue}, 70%, 85%)`;
-  }
-  return userColors[username];
-}
-
 socket.emit('login', username, (response) => {
   if (!response.success) {
     alert(response.message);
@@ -22,20 +12,26 @@ socket.emit('login', username, (response) => {
 
 socket.on('init', ({ users, messages }) => {
   users.forEach(addUserToList);
-  messages.forEach(m => addMessage(`${m.user}: ${m.text}`, { user: m.user, time: m.time }));
+  messages.forEach(m => addMessage(m));
 });
 
-socket.on('chat-message', ({ user, text, time }) => {
-  addMessage(`${user}: ${text}`, { user, time });
+socket.on('chat-message', (message) => {
+  addMessage(message);
 });
 
 socket.on('user-joined', (user) => {
-  addMessage(`🟢 ${user} a rejoint le chat`, { system: true });
+  addMessage({
+    text: `🟢 ${user} a rejoint le chat`,
+    system: true
+  });
   addUserToList(user);
 });
 
 socket.on('user-left', (user) => {
-  addMessage(`🔴 ${user} a quitté le chat`, { system: true });
+  addMessage({
+    text: `🔴 ${user} a quitté le chat`,
+    system: true
+  });
   removeUserFromList(user);
 });
 
@@ -52,36 +48,32 @@ function sendMessage() {
   }
 }
 
-function addMessage(msg, options = {}) {
+function addMessage({ user = null, text, time = null, system = false }) {
   const messages = document.getElementById('messages');
   const div = document.createElement('div');
   div.classList.add('message-bubble');
 
-  if (options.system) {
+  if (system) {
     div.classList.add('system');
-  } else if (options.user && options.user === username) {
+  } else if (user === username) {
     div.classList.add('you');
   }
 
-  if (options.user && !options.system) {
-    div.style.backgroundColor = getUserColor(options.user);
-  }
-
-  if (options.time) {
+  if (time) {
     const timeTag = document.createElement('span');
     timeTag.classList.add('timestamp');
-    timeTag.textContent = `🕒 ${options.time}`;
+    timeTag.textContent = `🕒 ${time}`;
     div.appendChild(timeTag);
   }
 
-  const text = document.createElement('div');
-  text.textContent = msg;
-  div.appendChild(text);
+  const content = document.createElement('div');
+  content.textContent = user && !system ? `${user}: ${text}` : text;
+  div.appendChild(content);
 
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
 
-  if (options.system) {
+  if (system) {
     setTimeout(() => {
       div.remove();
     }, 10000);
