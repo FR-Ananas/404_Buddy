@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Connexion</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="css/styles.css" />
   <style>
     * {
       box-sizing: border-box;
@@ -14,7 +13,7 @@
       margin: 0;
       padding: 0;
       background: #f4f4f4;
-      min-height: 100vh;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -22,26 +21,33 @@
 
     #login-box {
       background: white;
-      padding: 30px;
+      padding: 25px 20px;
       border-radius: 10px;
       box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
       text-align: center;
       width: 90%;
-      max-width: 350px;
+      max-width: 320px;
+    }
+
+    #login-box h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.3rem;
     }
 
     #login-box input {
       width: 100%;
       padding: 10px;
-      margin-top: 10px;
+      margin-bottom: 15px;
       border-radius: 5px;
       border: 1px solid #ccc;
+      font-size: 1rem;
     }
 
     #login-box button {
-      margin-top: 15px;
       width: 100%;
       padding: 10px;
+      font-size: 1rem;
       background-color: #007BFF;
       color: white;
       border: none;
