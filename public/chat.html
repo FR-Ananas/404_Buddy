@@ -7,9 +7,10 @@
   <link rel="stylesheet" href="css/styles.css" />
   <style>
     html, body {
-      height: 100%;
       margin: 0;
-      background-color: #f4f4f4;
+      padding: 0;
+      height: 100%;
+      background: #f4f4f4;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -25,45 +26,75 @@
       display: flex;
       flex-direction: column;
       position: relative;
+      overflow: hidden;
     }
 
     #users-toggle {
       position: absolute;
       top: 10px;
-      right: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
     }
 
     #users-box {
       position: absolute;
       top: 50px;
-      right: 10px;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 1000;
-      width: 200px;
+      width: 220px;
+      max-height: 250px;
     }
 
     #chat-box {
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 10px;
+      padding: 60px 10px 10px 10px; /* espace en haut pour le menu */
       height: 100%;
       box-sizing: border-box;
     }
 
     #chat-controls {
+      display: flex;
+      gap: 10px;
       margin-top: auto;
+    }
+
+    #chat-controls input {
+      flex: 1;
+      padding: 10px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    #chat-controls button {
+      padding: 10px 15px;
+      font-size: 1em;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #chat-controls button:hover {
+      background-color: #0056b3;
     }
 
     #messages {
       flex: 1;
       overflow-y: auto;
-      max-height: 60vh;
+      max-height: 100%;
+      padding-right: 5px;
     }
   </style>
 </head>
 <body>
   <div id="main-container">
-    <!-- Menu utilisateur au-dessus -->
+    <!-- Bouton et menu utilisateur -->
     <div id="users-toggle">
       <button onclick="toggleUsers()" id="toggle-btn">👥 Utilisateurs</button>
       <div id="users-box" class="hidden">
@@ -72,7 +103,7 @@
       </div>
     </div>
 
-    <!-- Boîte de chat -->
+    <!-- Chat principal -->
     <div id="chat-box">
       <div id="messages"></div>
       <div id="chat-controls">
