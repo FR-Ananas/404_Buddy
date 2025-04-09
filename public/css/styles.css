@@ -1,4 +1,3 @@
-/* ========== BASE ========= */
 html, body {
   margin: 0;
   padding: 0;
@@ -9,11 +8,10 @@ html, body {
   overflow-x: hidden;
 }
 
-/* ========== STRUCTURE ========= */
+/* 🧱 Par défaut : 100% mobile/tablette */
 #main-container {
-  width: 100%;
-  max-width: 900px;
-  min-width: 900px; /* 👈 Forcé dès le départ */
+  width: 95%;
+  max-width: 100%;
   height: 90vh;
   margin: auto;
   background: white;
@@ -25,7 +23,7 @@ html, body {
   overflow: hidden;
 }
 
-/* ========== MENU UTILISATEUR ========= */
+/* Menu utilisateur */
 #users-toggle {
   position: absolute;
   top: 10px;
@@ -52,7 +50,7 @@ html, body {
   overflow-y: auto;
 }
 
-/* ========== CHAT ========= */
+/* Chat box */
 #chat-box {
   flex: 1;
   display: flex;
@@ -63,7 +61,7 @@ html, body {
   overflow: hidden;
 }
 
-/* ========== ZONE MESSAGES ========= */
+/* Messages */
 #messages {
   flex: 1;
   overflow-y: auto;
@@ -75,7 +73,7 @@ html, body {
   gap: 6px;
 }
 
-/* ========== CONTROLS ========= */
+/* Controls */
 #chat-controls {
   display: flex;
   gap: 10px;
@@ -105,7 +103,7 @@ html, body {
   background-color: #0056b3;
 }
 
-/* ========== BULLES ========= */
+/* Bulles */
 .message-bubble {
   background-color: #e0e0e0;
   padding: 8px 12px;
@@ -135,11 +133,11 @@ html, body {
   display: block;
 }
 
-/* ========== PC ÉTENDU ========= */
+/* ✅ PC uniquement : largeur fixe plus élégante */
 @media (min-width: 1024px) {
   #main-container {
     max-width: 1000px;
-    min-width: 1000px;
+    min-width: 900px;
   }
 
   #chat-controls input,
