@@ -20,6 +20,7 @@ body {
   background: #fff;
 }
 
+/* Styles pour la liste des utilisateurs */
 #users-box {
   display: none;
   background: #f9f9f9;
@@ -40,6 +41,7 @@ body {
   padding-left: 0;
 }
 
+/* Styles pour le bouton de toggle */
 #toggle-btn {
   background-color: #007BFF;
   color: white;
@@ -47,8 +49,32 @@ body {
   padding: 8px 12px;
   border-radius: 4px;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 
 #toggle-btn:hover {
   background-color: #0056b3;
+}
+
+/* Styles pour les bulles de message */
+.message-bubble {
+  background-color: #e0e0e0;
+  padding: 8px 12px;
+  margin: 5px 0;
+  border-radius: 15px;
+  max-width: 70%;
+  display: inline-block;
+}
+
+.message-bubble.you {
+  background-color: #d1ecf1;
+  align-self: flex-end;
+}
+
+.message-bubble.system {
+  background-color: #ffeeba;
+  color: #856404;
+  font-style: italic;
+  border-left: 4px solid #ffc107;
+  max-width: 90%;
 }
