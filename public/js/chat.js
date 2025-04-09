@@ -48,7 +48,7 @@ function sendMessage() {
   }
 }
 
-function addMessage({ user = null, text, time = null, system = false }) {
+function addMessage({ user = null, text, system = false }) {
   const messages = document.getElementById('messages');
   const div = document.createElement('div');
   div.classList.add('message-bubble');
@@ -59,12 +59,16 @@ function addMessage({ user = null, text, time = null, system = false }) {
     div.classList.add('you');
   }
 
-  if (time) {
-    const timeTag = document.createElement('span');
-    timeTag.classList.add('timestamp');
-    timeTag.textContent = `🕒 ${time}`;
-    div.appendChild(timeTag);
-  }
+  // 🕒 Générer l'heure locale à la réception
+  const localTime = new Date().toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  const timeTag = document.createElement('span');
+  timeTag.classList.add('timestamp');
+  timeTag.textContent = `🕒 ${localTime}`;
+  div.appendChild(timeTag);
 
   const content = document.createElement('div');
   content.textContent = user && !system ? `${user}: ${text}` : text;
