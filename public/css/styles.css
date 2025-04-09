@@ -78,3 +78,14 @@ body {
   border-left: 4px solid #ffc107;
   max-width: 90%;
 }
+#messages {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  height: 300px;
+  overflow-y: scroll;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  padding: 5px;
+  background: #fff;
+}
