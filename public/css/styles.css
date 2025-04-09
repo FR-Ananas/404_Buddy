@@ -161,3 +161,32 @@ body > div {
     width: 100%;
   }
 }
+/* 🌐 Responsive PC uniquement */
+@media (min-width: 1024px) {
+  #main-container {
+    max-width: 1000px;
+    height: 85vh;
+  }
+
+  #chat-box {
+    padding: 80px 30px 20px 30px;
+  }
+
+  #chat-controls input {
+    font-size: 1.1rem;
+  }
+
+  #chat-controls button {
+    font-size: 1.1rem;
+  }
+
+  #users-toggle button {
+    font-size: 1rem;
+    padding: 8px 16px;
+  }
+
+  #users-box {
+    width: 250px;
+    font-size: 0.95rem;
+  }
+}
