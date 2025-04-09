@@ -32,11 +32,8 @@ module.exports = function(io) {
 
       const message = {
         user: username,
-        text: msg,
-        time: new Date().toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit'
-        })
+        text: msg
+        // ⛔️ pas de time ici → horodatage côté client
       };
 
       messageHistory.push(message);
