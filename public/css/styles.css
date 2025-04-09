@@ -68,7 +68,6 @@ body {
 
 .message-bubble.you {
   background-color: #d1ecf1;
-  align-self: flex-end;
 }
 
 .message-bubble.system {
