@@ -59,7 +59,6 @@ function addMessage({ user = null, text, system = false }) {
     div.classList.add('you');
   }
 
-  // 🕒 Générer l'heure locale à la réception
   const localTime = new Date().toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit'
@@ -105,5 +104,15 @@ function updateUserList(users) {
 
 function toggleUsers() {
   const box = document.getElementById('users-box');
-  box.classList.toggle('visible');
+  box.classList.toggle('hidden');
 }
+
+// ✅ Activation de "Entrée" pour envoyer le message
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('message-input');
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
+  });
+});
