@@ -5,101 +5,6 @@
   <title>Chat Global</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="css/styles.css" />
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: #f4f4f4;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #main-container {
-      width: 95%;
-      max-width: 600px;
-      height: 90vh;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Menu utilisateur */
-    #users-toggle {
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-      text-align: center;
-    }
-
-    #users-toggle button {
-      padding: 6px 12px;
-      font-size: 0.9rem;
-      border-radius: 6px;
-    }
-
-    #users-box {
-      position: absolute;
-      top: 50px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      width: 220px;
-      max-height: 250px;
-    }
-
-    #chat-box {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 60px 10px 10px 10px;
-      box-sizing: border-box;
-    }
-
-    #chat-controls {
-      display: flex;
-      gap: 10px;
-      margin-top: auto;
-      padding-top: 10px;
-    }
-
-    #chat-controls input {
-      flex: 1;
-      padding: 10px;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    #chat-controls button {
-      flex-shrink: 0;
-      padding: 10px 15px;
-      font-size: 1rem;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    #chat-controls button:hover {
-      background-color: #0056b3;
-    }
-
-    #messages {
-      flex: 1;
-      overflow-y: auto;
-      max-height: 100%;
-      padding-right: 5px;
-    }
-  </style>
 </head>
 <body>
   <div id="main-container">
@@ -112,7 +17,7 @@
       </div>
     </div>
 
-    <!-- Fenêtre de chat -->
+    <!-- Chat principal -->
     <div id="chat-box">
       <div id="messages"></div>
       <div id="chat-controls">
