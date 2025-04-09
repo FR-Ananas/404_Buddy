@@ -6,23 +6,24 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <div id="chat-box">
-    <div id="messages"></div>
-    <input type="text" id="message-input" placeholder="Tapez un message..." />
-    <button onclick="sendMessage()">Envoyer</button>
+  <div style="display: flex; gap: 10px;">
+    <div id="chat-box" style="flex: 3;">
+      <div id="messages"></div>
+      <input type="text" id="message-input" placeholder="Tapez un message..." />
+      <button onclick="sendMessage()">Envoyer</button>
+    </div>
+
+    <!-- Utilisateurs Toggle -->
+    <div id="users-toggle" style="flex: 1;">
+      <button onclick="toggleUsers()" id="toggle-btn">👥 Utilisateurs connectés</button>
+      <div id="users-box">
+        <h4>En ligne :</h4>
+        <ul id="user-list"></ul>
+      </div>
+    </div>
   </div>
+
   <script src="/socket.io/socket.io.js"></script>
   <script src="js/chat.js"></script>
-  <div style="display: flex; gap: 10px;">
-  <div id="chat-box" style="flex: 3;">
-    <div id="messages"></div>
-    <input type="text" id="message-input" placeholder="Tapez un message..." />
-    <button onclick="sendMessage()">Envoyer</button>
-  </div>
-  <div id="users-box" style="flex: 1;">
-    <h4>Utilisateurs connectés</h4>
-    <ul id="user-list"></ul>
-  </div>
-</div>
 </body>
 </html>
