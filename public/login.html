@@ -3,7 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <title>Connexion</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: #f4f4f4;
+    }
+
+    #login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 300px;
+    }
+
+    #login-box input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    #login-box button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #login-box button:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
   <div id="login-box">
@@ -11,6 +54,15 @@
     <input type="text" id="username" />
     <button onclick="login()">Entrer</button>
   </div>
-  <script src="js/login.js"></script>
+
+  <script>
+    function login() {
+      const username = document.getElementById('username').value;
+      if (username.trim()) {
+        localStorage.setItem('username', username);
+        window.location.href = 'chat.html';
+      }
+    }
+  </script>
 </body>
 </html>
