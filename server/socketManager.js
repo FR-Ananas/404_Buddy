@@ -1,7 +1,7 @@
 module.exports = function(io) {
-  const users = {};         // socket.id => username
-  const usernames = new Set(); // Pour valider les doublons
-  const messageHistory = []; // Historique des messages
+  const users = {};
+  const usernames = new Set();
+  const messageHistory = [];
 
   io.on('connection', (socket) => {
     console.log('🟢 Nouvelle connexion');
@@ -15,13 +15,11 @@ module.exports = function(io) {
       usernames.add(username);
       console.log(`✅ ${username} connecté`);
 
-      // Envoi de l'historique et de la liste des utilisateurs
       socket.emit('init', {
         users: Array.from(usernames),
         messages: messageHistory
       });
 
-      // Notifie les autres utilisateurs
       socket.broadcast.emit('user-joined', username);
       io.emit('update-users', Array.from(usernames));
 
@@ -32,10 +30,17 @@ module.exports = function(io) {
       const username = users[socket.id];
       if (!username) return;
 
-      const message = { user: username, text: msg };
-      messageHistory.push(message);
+      const message = {
+        user: username,
+        text: msg,
+        time: new Date().toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit'
+        })
+      };
 
-      if (messageHistory.length > 100) messageHistory.shift(); // cap historique
+      messageHistory.push(message);
+      if (messageHistory.length > 100) messageHistory.shift();
 
       io.emit('chat-message', message);
     });
