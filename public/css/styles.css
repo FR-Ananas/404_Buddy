@@ -8,9 +8,9 @@ html, body {
   overflow-x: hidden;
 }
 
-/* 🧱 Par défaut : 100% mobile/tablette */
+/* 🧱 Par défaut : layout fluide (pour tablette et téléphone par défaut) */
 #main-container {
-  width: 95%;
+  width: 100%;
   max-width: 100%;
   height: 90vh;
   margin: auto;
@@ -23,7 +23,7 @@ html, body {
   overflow: hidden;
 }
 
-/* Menu utilisateur */
+/* ========== MENU UTILISATEUR ========== */
 #users-toggle {
   position: absolute;
   top: 10px;
@@ -50,7 +50,7 @@ html, body {
   overflow-y: auto;
 }
 
-/* Chat box */
+/* ========== CHAT ========== */
 #chat-box {
   flex: 1;
   display: flex;
@@ -61,7 +61,7 @@ html, body {
   overflow: hidden;
 }
 
-/* Messages */
+/* ========== ZONE MESSAGES ========== */
 #messages {
   flex: 1;
   overflow-y: auto;
@@ -73,7 +73,7 @@ html, body {
   gap: 6px;
 }
 
-/* Controls */
+/* ========== CONTROLS ========== */
 #chat-controls {
   display: flex;
   gap: 10px;
@@ -103,7 +103,7 @@ html, body {
   background-color: #0056b3;
 }
 
-/* Bulles */
+/* ========== BULLES ========== */
 .message-bubble {
   background-color: #e0e0e0;
   padding: 8px 12px;
@@ -133,7 +133,7 @@ html, body {
   display: block;
 }
 
-/* ✅ PC uniquement : largeur fixe plus élégante */
+/* 🖥️ PC uniquement : largeur fixe et propre */
 @media (min-width: 1024px) {
   #main-container {
     max-width: 1000px;
@@ -149,10 +149,11 @@ html, body {
     width: 250px;
   }
 }
-/* 📱 MOBILE : largeur fixée propre, centrée */
+
+/* 📱 MOBILE uniquement : largeur fixée et centrée */
 @media (max-width: 767px) {
   #main-container {
-    width: 100%;
+    width: 95%;
     max-width: 95%;
     min-width: 95%;
     height: 90vh;
