@@ -1,17 +1,11 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <title>Chat Global</title>
-  <link rel="stylesheet" href="css/styles.css" />
-</head>
-<body>
-  <div id="chat-box">
+<div style="display: flex; gap: 10px;">
+  <div id="chat-box" style="flex: 3;">
     <div id="messages"></div>
     <input type="text" id="message-input" placeholder="Tapez un message..." />
     <button onclick="sendMessage()">Envoyer</button>
   </div>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="js/chat.js"></script>
-</body>
-</html>
+  <div id="users-box" style="flex: 1;">
+    <h4>Utilisateurs connectés</h4>
+    <ul id="user-list"></ul>
+  </div>
+</div>
