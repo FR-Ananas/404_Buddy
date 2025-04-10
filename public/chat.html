@@ -8,21 +8,37 @@
 </head>
 <body>
   <header>404Buddy v2.0b</header>
-  <nav>
+
+  <!-- MENU NAV CLASSIQUE -->
+  <nav class="desktop-nav">
     <div onclick="document.getElementById('fileInput').click()">Fichier</div>
     <div onclick="location.reload()">Discussion</div>
     <div onclick="togglePopup('settingsPopup')">Paramètres</div>
     <div onclick="togglePopup('helpPopup')">Aide</div>
   </nav>
 
+  <!-- MENU MOBILE + -->
+  <div class="mobile-nav">
+    <button id="menuToggle">+</button>
+    <div id="mobileMenu" class="mobile-menu">
+      <div onclick="document.getElementById('fileInput').click()">Fichier</div>
+      <div onclick="location.reload()">Discussion</div>
+      <div onclick="togglePopup('settingsPopup')">Paramètres</div>
+      <div onclick="togglePopup('helpPopup')">Aide</div>
+    </div>
+  </div>
+
   <input type="file" id="fileInput" accept="image/*" onchange="sendImage(event)" style="display:none;" />
 
   <div class="container">
-    <div class="sidebar">
-      <h3>Connectés</h3>
-      <div class="user-count" id="userCount">-</div>
-      <div class="user"><img src="" id="userPic"> <span id="userName">YOU</span></div>
+    <div class="sidebar mobile-hide" id="userSidebar">
+      <h3 onclick="toggleUsers()">Utilisateurs connectés ▼</h3>
+      <div id="userList">
+        <div class="user"><img src="" id="userPic"> <span id="userName">YOU</span></div>
+        <div class="user-count" id="userCount">-</div>
+      </div>
     </div>
+
     <div class="main">
       <div class="chat-window" id="chat"></div>
       <div class="input-box">
