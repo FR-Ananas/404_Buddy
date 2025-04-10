@@ -1,27 +1,39 @@
 module.exports = function(io) {
   const users = {};
+  const usernames = new Set();
   const messageHistory = [];
 
   io.on('connection', (socket) => {
-    console.log("Nouvel utilisateur connecté");
+    console.log('🟢 Nouvelle connexion');
 
-    // Quand un user se connecte avec pseudo et avatar
-    socket.on('user-joined', ({ pseudo, avatar }) => {
-      users[socket.id] = { pseudo, avatar };
+    socket.on('login', (username, callback) => {
+      if (usernames.has(username)) {
+        return callback({ success: false, message: "Pseudo déjà utilisé" });
+      }
 
-      // Mise à jour globale de la liste des utilisateurs
-      io.emit('update-users', Object.values(users).map(u => u.pseudo));
+      users[socket.id] = username;
+      usernames.add(username);
+      console.log(`✅ ${username} connecté`);
+
+      socket.emit('init', {
+        users: Array.from(usernames),
+        messages: messageHistory
+      });
+
+      socket.broadcast.emit('user-joined', username);
+      io.emit('update-users', Array.from(usernames));
+
+      callback({ success: true });
     });
 
-    // Quand un message est envoyé
-    socket.on('chat-message', (text) => {
-      const userData = users[socket.id];
-      if (!userData) return;
+    socket.on('chat-message', (msg) => {
+      const username = users[socket.id];
+      if (!username) return;
 
       const message = {
-        user: userData.pseudo,
-        avatar: userData.avatar,
-        text
+        user: username,
+        text: msg
+        // ⛔️ pas de time ici → horodatage côté client
       };
 
       messageHistory.push(message);
@@ -30,10 +42,15 @@ module.exports = function(io) {
       io.emit('chat-message', message);
     });
 
-    // Déconnexion d’un user
     socket.on('disconnect', () => {
-      delete users[socket.id];
-      io.emit('update-users', Object.values(users).map(u => u.pseudo));
+      const username = users[socket.id];
+      if (username) {
+        console.log(`🔴 ${username} déconnecté`);
+        usernames.delete(username);
+        delete users[socket.id];
+        socket.broadcast.emit('user-left', username);
+        io.emit('update-users', Array.from(usernames));
+      }
     });
   });
 };
