@@ -1,118 +1,111 @@
 const socket = io();
-const username = localStorage.getItem('username');
 
-if (!username) window.location.href = 'login.html';
+const chat = document.getElementById("chat");
+const input = document.getElementById("msgInput");
+const pseudo = localStorage.getItem("pseudo") || "Inconnu";
+const avatarSrc = localStorage.getItem("avatar") || "";
 
-socket.emit('login', username, (response) => {
-  if (!response.success) {
-    alert(response.message);
-    window.location.href = 'login.html';
-  }
-});
+// Set pseudo et avatar à l'écran
+document.getElementById("userName").innerText = pseudo;
+document.getElementById("userPic").src = avatarSrc;
 
-socket.on('init', ({ users, messages }) => {
-  users.forEach(addUserToList);
-  messages.forEach(m => addMessage(m));
-});
-
-socket.on('chat-message', (message) => {
-  addMessage(message);
-});
-
-socket.on('user-joined', (user) => {
-  addMessage({
-    text: `🟢 ${user} a rejoint le chat`,
-    system: true
-  });
-  addUserToList(user);
-});
-
-socket.on('user-left', (user) => {
-  addMessage({
-    text: `🔴 ${user} a quitté le chat`,
-    system: true
-  });
-  removeUserFromList(user);
-});
-
-socket.on('update-users', (userList) => {
-  updateUserList(userList);
-});
-
+// Envoi d'un message
 function sendMessage() {
-  const input = document.getElementById('message-input');
-  const message = input.value;
-  if (message.trim()) {
-    socket.emit('chat-message', message);
-    input.value = '';
-  }
-}
+  const text = input.value.trim();
+  if (!text) return;
 
-function addMessage({ user = null, text, system = false }) {
-  const messages = document.getElementById('messages');
-  const div = document.createElement('div');
-  div.classList.add('message-bubble');
-
-  if (system) {
-    div.classList.add('system');
-  } else if (user === username) {
-    div.classList.add('you');
+  if (text.startsWith("/") || text.toLowerCase().startsWith(">//")) {
+    handleCommand(text);
+    input.value = "";
+    return;
   }
 
-  const localTime = new Date().toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit'
+  socket.emit("message", {
+    user: pseudo,
+    text: text,
+    avatar: avatarSrc
   });
 
-  const timeTag = document.createElement('span');
-  timeTag.classList.add('timestamp');
-  timeTag.textContent = `🕒 ${localTime}`;
-  div.appendChild(timeTag);
-
-  const content = document.createElement('div');
-  content.textContent = user && !system ? `${user}: ${text}` : text;
-  div.appendChild(content);
-
-  messages.appendChild(div);
-  messages.scrollTop = messages.scrollHeight;
-
-  if (system) {
-    setTimeout(() => {
-      div.remove();
-    }, 10000);
-  }
+  input.value = "";
 }
 
-function addUserToList(user) {
-  const userList = document.getElementById('user-list');
-  const li = document.createElement('li');
-  li.id = `user-${user}`;
-  li.textContent = user;
-  userList.appendChild(li);
-}
-
-function removeUserFromList(user) {
-  const el = document.getElementById(`user-${user}`);
-  if (el) el.remove();
-}
-
-function updateUserList(users) {
-  const userList = document.getElementById('user-list');
-  userList.innerHTML = '';
-  users.forEach(addUserToList);
-}
-
-function toggleUsers() {
-  const box = document.getElementById('users-box');
-  box.classList.toggle('hidden');
-}
-
-// ✅ Activation de "Entrée" pour envoyer le message
-document.addEventListener('DOMContentLoaded', () => {
-  const input = document.getElementById('message-input');
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      sendMessage();
-    }
-  });
+// Réception de message
+socket.on("message", ({ user, text, avatar }) => {
+  const div = document.createElement("div");
+  div.className = "chat-msg";
+  div.innerHTML = `<img src="${avatar}" class="avatar"><strong>${user}:</strong> ${text}`;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
 });
+
+// Update du nombre d'utilisateurs
+socket.on("update-users", (count) => {
+  const userCount = document.getElementById("userCount");
+  if (userCount) userCount.innerText = `${count} / 100`;
+});
+
+socket.emit("user-joined", pseudo);
+
+// Commandes spéciales
+function handleCommand(cmd) {
+  const div = document.createElement("div");
+  div.className = "chat-msg";
+  div.innerHTML = `<img src="${avatarSrc}" class="avatar"><strong>404Buddy:</strong> `;
+
+  if (cmd === "/ping") {
+    div.innerHTML += "pong.";
+  } else if (cmd === "/error") {
+    div.innerHTML += "<span style='color:red;'>ERREUR FATALE : cerveau non détecté</span>";
+  } else if (cmd === ">//no") {
+    div.innerHTML += `<pre style="font-family: monospace; font-size: 12px; color: #0f0; background: #000; padding: 10px; border: 1px solid #0f0;">[ ACCESSING SYSTEM CORE... ]
+███╗   ██╗ ██████╗ ██████╗ ██╗   ██╗
+████╗  ██║██╔═══██╗██╔══██╗╚██╗ ██╔╝
+██╔██╗ ██║██║   ██║██████╔╝ ╚████╔╝ 
+██║╚██╗██║██║   ██║██╔═══╝   ╚██╔╝  
+██║ ╚████║╚██████╔╝██║        ██║   
+╚═╝  ╚═══╝ ╚═════╝ ╚═╝        ╚═╝   
+> SYSTEM OVERRIDE : INITIATING HACK SEQUENCE...
+> PLEASE DO NOT LOOK BEHIND YOU.</pre>`;
+  } else {
+    div.innerHTML += `Commande inconnue : ${cmd}`;
+  }
+
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+// Envoi d’image
+function sendImage(event) {
+  const file = event.target.files[0];
+  if (file && file.type.startsWith("image/")) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      socket.emit("message", {
+        user: pseudo,
+        text: `<br><img src="${e.target.result}" class="shared-img" onclick="previewImage(this.src)">`,
+        avatar: avatarSrc
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+// Aperçu image
+function previewImage(src) {
+  document.getElementById("previewImg").src = src;
+  document.getElementById("imagePreview").style.display = "flex";
+}
+
+// Popup & pseudo
+function togglePopup(id) {
+  const popup = document.getElementById(id);
+  popup.style.display = popup.style.display === "block" ? "none" : "block";
+}
+
+function changeUsername() {
+  const newName = prompt("Ton nouveau pseudo :");
+  if (newName) {
+    localStorage.setItem("pseudo", newName);
+    location.reload();
+  }
+}
