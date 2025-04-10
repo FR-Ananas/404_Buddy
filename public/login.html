@@ -2,78 +2,42 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Connexion</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: #f4f4f4;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #login-box {
-      background: white;
-      padding: 25px 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      width: 90%;
-      max-width: 320px;
-    }
-
-    #login-box h2 {
-      margin-top: 0;
-      margin-bottom: 20px;
-      font-size: 1.3rem;
-    }
-
-    #login-box input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-    }
-
-    #login-box button {
-      width: 100%;
-      padding: 10px;
-      font-size: 1rem;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    #login-box button:hover {
-      background-color: #0056b3;
-    }
-  </style>
+  <title>Connexion - 404Buddy</title>
+  <link rel="stylesheet" href="/style.css" />
 </head>
-<body>
-  <div id="login-box">
-    <h2>Entrez votre pseudo</h2>
-    <input type="text" id="username" />
-    <button onclick="login()">Entrer</button>
+<body class="login-body">
+  <div id="loginScreen" class="login-screen">
+    <div id="loginBox" class="login-box">
+      <h2>Connexion à 404Buddy</h2>
+      <input type="text" id="loginName" placeholder="Ton pseudo" class="login-input">
+      <label id="customFile" for="loginPic" class="file-btn">Choisir une image</label>
+      <input type="file" id="loginPic" accept="image/*" class="file-hidden">
+      <span id="fileLabelText" class="file-label">Aucune image sélectionnée</span>
+      <button onclick="start()" class="login-button">Se connecter</button>
+    </div>
   </div>
 
   <script>
-    function login() {
-      const username = document.getElementById('username').value;
-      if (username.trim()) {
-        localStorage.setItem('username', username);
-        window.location.href = 'chat.html';
+    document.getElementById('loginPic').addEventListener('change', function () {
+      const label = document.getElementById('fileLabelText');
+      label.textContent = this.files.length ? "Image sélectionnée : " + this.files[0].name : "Aucune image sélectionnée";
+    });
+
+    function start() {
+      const name = document.getElementById('loginName').value;
+      const file = document.getElementById('loginPic').files[0];
+      if (!name || !file) {
+        alert("Entre un pseudo ET une image !");
+        return;
       }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        localStorage.setItem("pseudo", name);
+        localStorage.setItem("avatar", e.target.result);
+        window.location.href = "/chat.html";
+      };
+      reader.readAsDataURL(file);
     }
   </script>
 </body>
