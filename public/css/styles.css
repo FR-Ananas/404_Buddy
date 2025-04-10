@@ -211,3 +211,67 @@ footer {
   color: #666;
   margin-bottom: 8px;
 }
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .main {
+    padding: 8px;
+  }
+
+  .chat-window {
+    max-height: 50vh;
+  }
+
+  .input-box {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .input-box input {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .input-box button {
+    width: 100%;
+    font-size: 16px;
+    margin-left: 0;
+  }
+
+  nav {
+    flex-wrap: wrap;
+  }
+
+  nav div {
+    margin-right: 12px;
+    margin-bottom: 6px;
+  }
+
+  footer {
+    font-size: 10px;
+  }
+
+  .popup {
+    width: 90%;
+    max-width: 320px;
+  }
+
+  .chat-msg {
+    word-break: break-word;
+    flex-wrap: wrap;
+  }
+
+  .shared-img {
+    max-width: 100%;
+    height: auto;
+  }
+}
