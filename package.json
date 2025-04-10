@@ -1,6 +1,7 @@
 {
-  "name": "404_buddy",
+  "name": "chat-global-app",
   "version": "1.0.0",
+  "description": "Application de chat global en temps réel",
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js"
