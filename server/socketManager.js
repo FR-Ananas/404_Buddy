@@ -4,27 +4,19 @@ module.exports = function(io) {
   const messageHistory = [];
 
   io.on('connection', (socket) => {
-    console.log('🟢 Nouvelle connexion');
+    console.log(' Nouvelle connexion');
 
-    socket.on('login', (username, callback) => {
-      if (usernames.has(username)) {
-        return callback({ success: false, message: "Pseudo déjà utilisé" });
-      }
+    const pseudo = "User#" + socket.id.slice(0, 4);
+    users[socket.id] = pseudo;
+    usernames.add(pseudo);
 
-      users[socket.id] = username;
-      usernames.add(username);
-      console.log(`✅ ${username} connecté`);
-
-      socket.emit('init', {
-        users: Array.from(usernames),
-        messages: messageHistory
-      });
-
-      socket.broadcast.emit('user-joined', username);
-      io.emit('update-users', Array.from(usernames));
-
-      callback({ success: true });
+    socket.emit('init', {
+      users: Array.from(usernames),
+      messages: messageHistory
     });
+
+    socket.broadcast.emit('user-joined', pseudo);
+    io.emit('update-users', Array.from(usernames));
 
     socket.on('chat-message', (msg) => {
       const username = users[socket.id];
@@ -33,7 +25,6 @@ module.exports = function(io) {
       const message = {
         user: username,
         text: msg
-        // ⛔️ pas de time ici → horodatage côté client
       };
 
       messageHistory.push(message);
@@ -45,7 +36,6 @@ module.exports = function(io) {
     socket.on('disconnect', () => {
       const username = users[socket.id];
       if (username) {
-        console.log(`🔴 ${username} déconnecté`);
         usernames.delete(username);
         delete users[socket.id];
         socket.broadcast.emit('user-left', username);
