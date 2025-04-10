@@ -1,12 +1,19 @@
 const socket = io();
+
 const chat = document.getElementById("chat");
 const input = document.getElementById("msgInput");
 const pseudo = localStorage.getItem("pseudo") || "Inconnu";
 const avatarSrc = localStorage.getItem("avatar") || "";
 
-// Affichage initial du pseudo et avatar
+// Affiche pseudo et avatar dans la sidebar
 document.getElementById("userName").innerText = pseudo;
 document.getElementById("userPic").src = avatarSrc;
+
+// Envoi des infos au serveur dès la connexion
+socket.emit("user-joined", {
+  pseudo: pseudo,
+  avatar: avatarSrc
+});
 
 // Envoi d’un message
 function sendMessage() {
@@ -23,21 +30,21 @@ function sendMessage() {
   input.value = "";
 }
 
-// Réception d’un message
-socket.on("chat-message", ({ user, text }) => {
+// Réception d’un message (avec avatar + pseudo)
+socket.on("chat-message", ({ user, text, avatar }) => {
   const div = document.createElement("div");
   div.className = "chat-msg";
-  div.innerHTML = `<img src="${avatarSrc}" class="avatar"><strong>${user}:</strong> ${text}`;
+  div.innerHTML = `<img src="${avatar}" class="avatar"><strong>${user}:</strong> ${text}`;
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
 });
 
-// Mise à jour du compteur d’utilisateurs
-socket.on("update-users", (users) => {
-  document.getElementById("userCount").innerText = `${users.length} / 100`;
+// Update du nombre d’utilisateurs connectés
+socket.on("update-users", (pseudoList) => {
+  document.getElementById("userCount").innerText = `${pseudoList.length} / 100`;
 });
 
-// Commandes
+// Commandes spéciales
 function handleCommand(cmd) {
   const div = document.createElement("div");
   div.className = "chat-msg";
