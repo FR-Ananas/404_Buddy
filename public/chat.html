@@ -9,46 +9,38 @@
 <body>
   <header>404Buddy v2.0b</header>
 
-  <!-- MENU NAV CLASSIQUE -->
-  <nav class="desktop-nav">
-    <div onclick="document.getElementById('fileInput').click()">Fichier</div>
-    <div onclick="location.reload()">Discussion</div>
-    <div onclick="togglePopup('settingsPopup')">Paramètres</div>
-    <div onclick="togglePopup('helpPopup')">Aide</div>
-  </nav>
-
-  <!-- MENU MOBILE + -->
-  <div class="mobile-nav">
-    <button id="menuToggle">+</button>
-    <div id="mobileMenu" class="mobile-menu">
-      <div onclick="document.getElementById('fileInput').click()">Fichier</div>
-      <div onclick="location.reload()">Discussion</div>
-      <div onclick="togglePopup('settingsPopup')">Paramètres</div>
-      <div onclick="togglePopup('helpPopup')">Aide</div>
-    </div>
+  <!-- NAVIGATION MOBILE -->
+  <div class="nav-mobile">
+    <button id="toggleMenu">+</button>
+  </div>
+  <div class="nav-popup" id="mobileNavPopup">
+    <div onclick="document.getElementById('fileInput').click()">📁 Fichier</div>
+    <div onclick="location.reload()">💬 Discussion</div>
+    <div onclick="togglePopup('settingsPopup')">⚙️ Paramètres</div>
+    <div onclick="togglePopup('helpPopup')">❓ Aide</div>
   </div>
 
   <input type="file" id="fileInput" accept="image/*" onchange="sendImage(event)" style="display:none;" />
 
-  <div class="container">
-    <div class="sidebar mobile-hide" id="userSidebar">
-      <h3 onclick="toggleUsers()">Utilisateurs connectés ▼</h3>
-      <div id="userList">
-        <div class="user"><img src="" id="userPic"> <span id="userName">YOU</span></div>
-        <div class="user-count" id="userCount">-</div>
-      </div>
-    </div>
+  <div class="sidebar-button-mobile">
+    <button id="toggleUsers">👥</button>
+  </div>
+  <div class="sidebar-popup" id="userPopup">
+    <h3>Connectés</h3>
+    <div class="user"><img src="" id="userPic"> <span id="userName">YOU</span></div>
+    <div class="user-count" id="userCount">-</div>
+  </div>
 
+  <div class="container">
     <div class="main">
       <div class="chat-window" id="chat"></div>
       <div class="input-box">
-        <input type="text" id="msgInput" placeholder="Écris un message...">
+        <input type="text" id="msgInput" placeholder="Écris un message..." />
         <button onclick="sendMessage()">Envoyer</button>
       </div>
     </div>
   </div>
 
-  <!-- Popups -->
   <div class="popup" id="settingsPopup">
     <h3>Paramètres</h3>
     <p>Modifier ton pseudo ici.</p>
