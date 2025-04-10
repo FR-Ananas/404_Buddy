@@ -2,32 +2,55 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Chat Global</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <title>404Buddy v2.0b</title>
+  <link rel="stylesheet" href="/style.css" />
+  <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-  <div id="main-container">
-    <!-- Menu utilisateur -->
-    <div id="users-toggle">
-      <button onclick="toggleUsers()" id="toggle-btn">👥 Utilisateurs</button>
-      <div id="users-box" class="hidden">
-        <h4>En ligne :</h4>
-        <ul id="user-list"></ul>
-      </div>
-    </div>
+  <header>404Buddy v2.0b</header>
+  <nav>
+    <div onclick="document.getElementById('fileInput').click()">Fichier</div>
+    <div onclick="location.reload()">Discussion</div>
+    <div onclick="togglePopup('settingsPopup')">Paramètres</div>
+    <div onclick="togglePopup('helpPopup')">Aide</div>
+  </nav>
 
-    <!-- Chat principal -->
-    <div id="chat-box">
-      <div id="messages"></div>
-      <div id="chat-controls">
-        <input type="text" id="message-input" placeholder="Tapez un message..." />
+  <input type="file" id="fileInput" accept="image/*" onchange="sendImage(event)" style="display:none;" />
+
+  <div class="container">
+    <div class="sidebar">
+      <h3>Connectés</h3>
+      <div class="user-count" id="userCount">-</div>
+      <div class="user"><img src="" id="userPic"> <span id="userName">YOU</span></div>
+    </div>
+    <div class="main">
+      <div class="chat-window" id="chat"></div>
+      <div class="input-box">
+        <input type="text" id="msgInput" placeholder="Écris un message...">
         <button onclick="sendMessage()">Envoyer</button>
       </div>
     </div>
   </div>
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="js/chat.js"></script>
+  <!-- Popups -->
+  <div class="popup" id="settingsPopup">
+    <h3>Paramètres</h3>
+    <p>Modifier ton pseudo ici.</p>
+    <button onclick="changeUsername()">Changer de pseudo</button>
+    <button onclick="location.href='/login.html'">Déconnexion</button>
+    <button onclick="togglePopup('settingsPopup')">Fermer</button>
+  </div>
+
+  <div class="popup" id="helpPopup">
+    <h3>Aide</h3>
+    <p>ERREUR : personne ne peut rien pour toi.</p>
+    <button onclick="togglePopup('helpPopup')">OK</button>
+  </div>
+
+  <div id="imagePreview" onclick="this.style.display='none'"><img id="previewImg" src=""></div>
+
+  <footer>404Buddy - Dernière mise à jour : avril 2004</footer>
+
+  <script src="/script.js"></script>
 </body>
 </html>
