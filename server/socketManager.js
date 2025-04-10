@@ -1,30 +1,27 @@
 module.exports = function(io) {
   const users = {};
-  const usernames = new Set();
   const messageHistory = [];
 
   io.on('connection', (socket) => {
-    console.log(' Nouvelle connexion');
+    console.log("Nouvel utilisateur connecté");
 
-    const pseudo = "User#" + socket.id.slice(0, 4);
-    users[socket.id] = pseudo;
-    usernames.add(pseudo);
+    // Quand un user se connecte avec pseudo et avatar
+    socket.on('user-joined', ({ pseudo, avatar }) => {
+      users[socket.id] = { pseudo, avatar };
 
-    socket.emit('init', {
-      users: Array.from(usernames),
-      messages: messageHistory
+      // Mise à jour globale de la liste des utilisateurs
+      io.emit('update-users', Object.values(users).map(u => u.pseudo));
     });
 
-    socket.broadcast.emit('user-joined', pseudo);
-    io.emit('update-users', Array.from(usernames));
-
-    socket.on('chat-message', (msg) => {
-      const username = users[socket.id];
-      if (!username) return;
+    // Quand un message est envoyé
+    socket.on('chat-message', (text) => {
+      const userData = users[socket.id];
+      if (!userData) return;
 
       const message = {
-        user: username,
-        text: msg
+        user: userData.pseudo,
+        avatar: userData.avatar,
+        text
       };
 
       messageHistory.push(message);
@@ -33,14 +30,10 @@ module.exports = function(io) {
       io.emit('chat-message', message);
     });
 
+    // Déconnexion d’un user
     socket.on('disconnect', () => {
-      const username = users[socket.id];
-      if (username) {
-        usernames.delete(username);
-        delete users[socket.id];
-        socket.broadcast.emit('user-left', username);
-        io.emit('update-users', Array.from(usernames));
-      }
+      delete users[socket.id];
+      io.emit('update-users', Object.values(users).map(u => u.pseudo));
     });
   });
 };
