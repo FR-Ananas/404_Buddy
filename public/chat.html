@@ -2,64 +2,32 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>404Buddy v2.0b</title>
+  <title>Chat Global</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <header>404Buddy v2.0b</header>
+  <div id="main-container">
+    <!-- Menu utilisateur -->
+    <div id="users-toggle">
+      <button onclick="toggleUsers()" id="toggle-btn">👥 Utilisateurs</button>
+      <div id="users-box" class="hidden">
+        <h4>En ligne :</h4>
+        <ul id="user-list"></ul>
+      </div>
+    </div>
 
-  <!-- NAVIGATION MOBILE -->
-  <div class="nav-mobile">
-    <button id="toggleMenu">+</button>
-  </div>
-  <div class="nav-popup" id="mobileNavPopup">
-    <div onclick="document.getElementById('fileInput').click()">📁 Fichier</div>
-    <div onclick="location.reload()">💬 Discussion</div>
-    <div onclick="togglePopup('settingsPopup')">⚙️ Paramètres</div>
-    <div onclick="togglePopup('helpPopup')">❓ Aide</div>
-  </div>
-
-  <input type="file" id="fileInput" accept="image/*" onchange="sendImage(event)" style="display:none;" />
-
-  <div class="sidebar-button-mobile">
-    <button id="toggleUsers">👥</button>
-  </div>
-  <div class="sidebar-popup" id="userPopup">
-    <h3>Connectés</h3>
-    <div class="user"><img src="" id="userPic"> <span id="userName">YOU</span></div>
-    <div class="user-count" id="userCount">-</div>
-  </div>
-
-  <div class="container">
-    <div class="main">
-      <div class="chat-window" id="chat"></div>
-      <div class="input-box">
-        <input type="text" id="msgInput" placeholder="Écris un message..." />
+    <!-- Chat principal -->
+    <div id="chat-box">
+      <div id="messages"></div>
+      <div id="chat-controls">
+        <input type="text" id="message-input" placeholder="Tapez un message..." />
         <button onclick="sendMessage()">Envoyer</button>
       </div>
     </div>
   </div>
 
-  <div class="popup" id="settingsPopup">
-    <h3>Paramètres</h3>
-    <p>Modifier ton pseudo ici.</p>
-    <button onclick="changeUsername()">Changer de pseudo</button>
-    <button onclick="location.href='/login.html'">Déconnexion</button>
-    <button onclick="togglePopup('settingsPopup')">Fermer</button>
-  </div>
-
-  <div class="popup" id="helpPopup">
-    <h3>Aide</h3>
-    <p>ERREUR : personne ne peut rien pour toi.</p>
-    <button onclick="togglePopup('helpPopup')">OK</button>
-  </div>
-
-  <div id="imagePreview" onclick="this.style.display='none'"><img id="previewImg" src=""></div>
-
-  <footer>404Buddy - Dernière mise à jour : avril 2004</footer>
-
   <script src="/socket.io/socket.io.js"></script>
-  <script src="/js/chat.js"></script>
+  <script src="js/chat.js"></script>
 </body>
 </html>
