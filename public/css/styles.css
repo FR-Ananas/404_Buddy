@@ -1,24 +1,308 @@
-const express = require("express");
-const http = require("http");
-const { Server } = require("socket.io");
-const path = require("path");
+html, body {
+  margin: 0;
+  height: 100dvh;
+  overflow: hidden;
+  font-family: Tahoma, sans-serif;
+  background-color: #d8dfea;
+  color: #000;
+}
 
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
+header {
+  background-color: #3b5998;
+  color: white;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 2px solid #1c2a4a;
+}
 
-// Socket.IO handler
-require("./socketManager")(io);
+nav {
+  background-color: #eceff5;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+nav div {
+  margin-right: 20px;
+  cursor: pointer;
+}
 
-// Static files from public/
-app.use(express.static(path.join(__dirname, "../public")));
+#fileInput {
+  display: none;
+}
 
-// Serve chat.html on root
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/chat.html"));
-});
+.container {
+  display: flex;
+  height: calc(100dvh - 78px); /* header (36px) + nav (42px) */
+  overflow: hidden;
+}
 
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-  console.log(`✅ Serveur lancé sur http://localhost:${PORT}`);
-});
+.sidebar {
+  width: 200px;
+  background-color: #f5f6f7;
+  border-right: 1px solid #ccc;
+  padding: 10px;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+.sidebar h3 {
+  font-size: 13px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 4px;
+}
+.sidebar .user {
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sidebar .user img,
+.chat-msg img.avatar {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border: 2px solid #3b5998;
+  border-radius: 4px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 12px;
+  background-color: white;
+  box-sizing: border-box;
+  min-height: 0;
+}
+
+.chat-window {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid #aaa;
+  padding: 10px;
+  background: #f9f9f9;
+  font-size: 13px;
+  box-sizing: border-box;
+  min-height: 0;
+}
+
+.chat-msg {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.chat-msg img.shared-img {
+  max-width: 100%;
+  margin-top: 5px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+.input-box {
+  display: flex;
+  margin-top: 10px;
+  flex-shrink: 0;
+}
+.input-box input {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid #999;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+.input-box button {
+  background: #3b5998;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+footer {
+  background-color: #eceff5;
+  padding: 6px 12px;
+  font-size: 11px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}
+
+/* Popups */
+.popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 2px solid #666;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 0 10px #00000055;
+  display: none;
+  z-index: 100;
+}
+.popup h3 {
+  margin-top: 0;
+  font-size: 16px;
+  color: #3b5998;
+}
+.popup button {
+  margin-top: 10px;
+  background: #3b5998;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  margin-right: 6px;
+}
+
+/* Login */
+#loginScreen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: #d8dfea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+#loginBox {
+  background: white;
+  padding: 20px;
+  border: 1px solid #999;
+  box-shadow: 0 0 20px #3b5998aa;
+  text-align: center;
+  width: 300px;
+  border-radius: 6px;
+}
+#loginBox input[type="text"] {
+  margin-bottom: 10px;
+  padding: 6px;
+  width: 100%;
+  font-size: 14px;
+}
+#customFile {
+  display: inline-block;
+  background: #3b5998;
+  color: white;
+  padding: 6px 12px;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+#loginBox input[type="file"] {
+  display: none;
+}
+#fileLabelText {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 10px;
+  display: block;
+}
+#loginBox button {
+  background: #3b5998;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* XP Loader */
+#xpLoaderPopup {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+#xpPopupWindow {
+  width: 320px;
+  background: #e8e8e8;
+  border: 2px solid #3b5998;
+  box-shadow: 0 0 12px #000;
+  font-family: Tahoma, sans-serif;
+}
+.xpHeader {
+  background: linear-gradient(to right, #1c2a4a, #3b5998);
+  color: white;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: bold;
+  border-bottom: 1px solid #1c2a4a;
+}
+.xpContent {
+  padding: 15px;
+  font-size: 13px;
+  color: #000;
+}
+.xpProgressBar {
+  width: 100%;
+  height: 20px;
+  background: #c0c0c0;
+  border: 1px inset #aaa;
+  margin-top: 10px;
+}
+.xpBar {
+  width: 0%;
+  height: 100%;
+  background: #4caf50;
+  animation: xpLoad 2.5s linear forwards;
+}
+@keyframes xpLoad {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* 📱 Responsive - même structure, plus petit */
+@media (max-width: 768px) {
+  body {
+    font-size: 13px;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  nav div {
+    margin: 4px 8px;
+  }
+
+  .sidebar {
+    width: 130px;
+    font-size: 12px;
+  }
+
+  .main {
+    padding: 8px;
+  }
+
+  .chat-window {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .input-box input,
+  .input-box button {
+    font-size: 12px;
+    padding: 5px;
+  }
+
+  .popup,
+  #loginBox,
+  #xpPopupWindow {
+    width: 90%;
+  }
+}
