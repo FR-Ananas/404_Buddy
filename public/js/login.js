@@ -1,0 +1,1 @@
+(login.js déjà fonctionnel pour la connexion locale avec image)
