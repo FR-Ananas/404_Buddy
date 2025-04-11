@@ -1,4 +1,4 @@
-// 🔐 Redirige vers login si l'utilisateur n'est pas connecté
+// 🔐 Redirection si pas connecté
 if (!sessionStorage.getItem("username") || !sessionStorage.getItem("avatar")) {
   window.location.href = "/login.html";
 }
@@ -6,8 +6,11 @@ if (!sessionStorage.getItem("username") || !sessionStorage.getItem("avatar")) {
 document.addEventListener("DOMContentLoaded", function () {
   const socket = io();
 
-  const avatarSrc = sessionStorage.getItem("avatar") || "";
-  const username = sessionStorage.getItem("username") || "YOU";
+  const avatarSrc = sessionStorage.getItem("avatar");
+  const username = sessionStorage.getItem("username");
+
+  // Envoie les infos de l'utilisateur au serveur
+  socket.emit("userJoined", { username, avatar: avatarSrc });
 
   const userPic = document.getElementById('userPic');
   const userName = document.getElementById('userName');
@@ -33,6 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function sendMessage(msg) {
     msg = msg.trim();
+    console.log("[mobile/desktop] tentative d'envoi :", msg); // ✅ log pour debug
+
     if (!msg) return;
 
     if (msg.startsWith('/') || msg.toLowerCase().startsWith('>//')) {
@@ -42,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     socket.emit("message", {
-      username: username,
+      username,
       avatar: avatarSrc,
       content: msg
     });
@@ -56,6 +61,26 @@ document.addEventListener("DOMContentLoaded", function () {
     div.innerHTML = "<img src='" + data.avatar + "' class='avatar'><strong>" + data.username + ":</strong> " + data.content;
     chat.appendChild(div);
     chat.scrollTop = chat.scrollHeight;
+  });
+
+  socket.on("userList", function(users) {
+    const sidebar = document.querySelector(".sidebar");
+    const userCount = document.getElementById("userCount");
+
+    userCount.innerText = `${users.length} / 100`;
+
+    const userListHTML = users.map(user => `
+      <div class="user">
+        <img src="${user.avatar}" />
+        <span>${user.username}</span>
+      </div>
+    `).join("");
+
+    sidebar.innerHTML = `
+      <h3>Connectés</h3>
+      <div style="font-size: 11px; color: #666; margin-bottom: 8px;" id="userCount">${users.length} / 100</div>
+      ${userListHTML}
+    `;
   });
 
   function handleCommand(cmd) {
