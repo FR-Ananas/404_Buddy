@@ -1,3 +1,8 @@
+// 🔐 Redirige vers login si l'utilisateur n'est pas connecté
+if (!sessionStorage.getItem("username") || !sessionStorage.getItem("avatar")) {
+  window.location.href = "/login.html";
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const socket = io();
 
