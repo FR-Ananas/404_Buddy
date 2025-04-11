@@ -249,3 +249,47 @@ footer {
   from { width: 0%; }
   to { width: 100%; }
 }
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .main {
+    padding: 8px;
+    flex: 1;
+  }
+
+  .chat-window {
+    max-height: 60vh;
+  }
+
+  .input-box {
+    flex-direction: column;
+  }
+
+  .input-box input {
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  .input-box button {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  nav {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  nav div {
+    margin-right: 0;
+  }
+}
