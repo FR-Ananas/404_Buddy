@@ -1,80 +1,33 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Connexion</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: #f4f4f4;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #login-box {
-      background: white;
-      padding: 25px 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      width: 90%;
-      max-width: 320px;
-    }
-
-    #login-box h2 {
-      margin-top: 0;
-      margin-bottom: 20px;
-      font-size: 1.3rem;
-    }
-
-    #login-box input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-    }
-
-    #login-box button {
-      width: 100%;
-      padding: 10px;
-      font-size: 1rem;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    #login-box button:hover {
-      background-color: #0056b3;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Connexion - 404Buddy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <div id="login-box">
-    <h2>Entrez votre pseudo</h2>
-    <input type="text" id="username" />
-    <button onclick="login()">Entrer</button>
+  <div id="loginScreen">
+    <div id="loginBox">
+      <h2>Connexion à 404Buddy</h2>
+      <input type="text" id="loginName" placeholder="Ton pseudo">
+      <label id="customFile" for="loginPic">Choisir une image</label>
+      <input type="file" id="loginPic" accept="image/*">
+      <span id="fileLabelText">Aucune image sélectionnée</span>
+      <button onclick="login()">Se connecter</button>
+    </div>
   </div>
 
-  <script>
-    function login() {
-      const username = document.getElementById('username').value;
-      if (username.trim()) {
-        localStorage.setItem('username', username);
-        window.location.href = 'chat.html';
-      }
-    }
-  </script>
+  <div id="xpLoaderPopup">
+    <div id="xpPopupWindow">
+      <div class="xpHeader">Chargement de 404Buddy.exe</div>
+      <div class="xpContent">
+        <p>Initialisation du système...</p>
+        <div class="xpProgressBar"><div class="xpBar"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/login.js"></script>
 </body>
 </html>
