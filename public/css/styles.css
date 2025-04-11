@@ -1,5 +1,7 @@
-body {
+html, body {
   margin: 0;
+  height: 100dvh;
+  overflow: hidden;
   font-family: Tahoma, sans-serif;
   background-color: #d8dfea;
   color: #000;
@@ -28,7 +30,8 @@ nav div {
 
 .container {
   display: flex;
-  height: calc(100vh - 80px);
+  height: calc(100dvh - 78px); /* header (36px) + nav (42px) */
+  overflow: hidden;
 }
 
 .sidebar {
@@ -37,6 +40,7 @@ nav div {
   border-right: 1px solid #ccc;
   padding: 10px;
   font-size: 13px;
+  box-sizing: border-box;
 }
 .sidebar h3 {
   font-size: 13px;
@@ -60,20 +64,24 @@ nav div {
 }
 
 .main {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   padding: 12px;
   background-color: white;
-  display: flex;
-  flex-direction: column;
+  box-sizing: border-box;
+  min-height: 0;
 }
 
 .chat-window {
   flex: 1;
+  overflow-y: auto;
   border: 1px solid #aaa;
   padding: 10px;
-  overflow-y: auto;
   background: #f9f9f9;
   font-size: 13px;
+  box-sizing: border-box;
+  min-height: 0;
 }
 
 .chat-msg {
@@ -89,14 +97,16 @@ nav div {
 }
 
 .input-box {
-  margin-top: 10px;
   display: flex;
+  margin-top: 10px;
+  flex-shrink: 0;
 }
 .input-box input {
   flex: 1;
   padding: 6px;
   border: 1px solid #999;
   font-size: 13px;
+  box-sizing: border-box;
 }
 .input-box button {
   background: #3b5998;
@@ -106,6 +116,7 @@ nav div {
   margin-left: 6px;
   cursor: pointer;
   font-size: 13px;
+  box-sizing: border-box;
 }
 
 footer {
@@ -250,15 +261,10 @@ footer {
   to { width: 100%; }
 }
 
-/* 📱 RESPONSIVE : même structure, juste plus petit */
+/* 📱 Responsive ajusté — structure inchangée, juste taille + flex-wrap */
 @media (max-width: 768px) {
   body {
     font-size: 13px;
-  }
-
-  header {
-    font-size: 15px;
-    padding: 6px 12px;
   }
 
   nav {
@@ -284,57 +290,15 @@ footer {
     padding: 8px;
   }
 
-  .input-box {
-    flex-direction: row;
-    flex-wrap: nowrap;
-  }
-
-  .input-box input {
+  .input-box input,
+  .input-box button {
     font-size: 12px;
     padding: 5px;
   }
 
-  .input-box button {
-    font-size: 12px;
-    padding: 5px 10px;
-  }
-
-  .popup {
-    width: 90%;
-  }
-
-  #loginBox {
-    width: 90%;
-  }
-
+  .popup,
+  #loginBox,
   #xpPopupWindow {
     width: 90%;
   }
-}
-html, body {
-  height: 100%;
-  overflow: hidden;
-}
-
-.container {
-  height: calc(100vh - 80px); /* 80px = header + nav */
-  overflow: hidden;
-}
-
-.main {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.chat-window {
-  flex: 1;
-  overflow-y: auto;
-  background: #f9f9f9;
-  border: 1px solid #aaa;
-  padding: 10px;
-}
-
-.input-box {
-  flex-shrink: 0;
 }
