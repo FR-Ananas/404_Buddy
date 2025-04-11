@@ -311,3 +311,30 @@ footer {
     width: 90%;
   }
 }
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+.container {
+  height: calc(100vh - 80px); /* 80px = header + nav */
+  overflow: hidden;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chat-window {
+  flex: 1;
+  overflow-y: auto;
+  background: #f9f9f9;
+  border: 1px solid #aaa;
+  padding: 10px;
+}
+
+.input-box {
+  flex-shrink: 0;
+}
