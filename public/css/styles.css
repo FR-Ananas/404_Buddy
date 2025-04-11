@@ -302,3 +302,6 @@ footer {
     width: 90%;
   }
 }
+#fileInput {
+  display: none;
+}
