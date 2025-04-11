@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const picInput = document.getElementById("loginPic");
   const fileLabel = document.getElementById("fileLabelText");
 
+  // Affiche le nom de l'image sélectionnée
   picInput.addEventListener("change", function () {
     if (this.files.length > 0) {
       fileLabel.textContent = "Image sélectionnée : " + this.files[0].name;
@@ -12,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  // Fonction de connexion
   window.login = function () {
     const name = nameInput.value;
     const file = picInput.files[0];
