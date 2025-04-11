@@ -1,1 +1,24 @@
-(styles.css avec layout fixe + responsive mobile + masquage input)
+const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
+const path = require("path");
+
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
+
+// Socket.IO handler
+require("./socketManager")(io);
+
+// Static files from public/
+app.use(express.static(path.join(__dirname, "../public")));
+
+// Serve chat.html on root
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/chat.html"));
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`✅ Serveur lancé sur http://localhost:${PORT}`);
+});
