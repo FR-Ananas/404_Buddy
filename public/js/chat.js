@@ -1,118 +1,83 @@
-const socket = io();
-const username = localStorage.getItem('username');
+const avatarSrc = sessionStorage.getItem("avatar") || "";
+const username = sessionStorage.getItem("username") || "YOU";
+document.getElementById('userPic').src = avatarSrc;
+document.getElementById('chatAvatar')?.setAttribute('src', avatarSrc);
+document.getElementById('userName').innerText = username;
+document.getElementById('pseudo')?.innerText = username + ":";
 
-if (!username) window.location.href = 'login.html';
-
-socket.emit('login', username, (response) => {
-  if (!response.success) {
-    alert(response.message);
-    window.location.href = 'login.html';
-  }
-});
-
-socket.on('init', ({ users, messages }) => {
-  users.forEach(addUserToList);
-  messages.forEach(m => addMessage(m));
-});
-
-socket.on('chat-message', (message) => {
-  addMessage(message);
-});
-
-socket.on('user-joined', (user) => {
-  addMessage({
-    text: `🟢 ${user} a rejoint le chat`,
-    system: true
-  });
-  addUserToList(user);
-});
-
-socket.on('user-left', (user) => {
-  addMessage({
-    text: `🔴 ${user} a quitté le chat`,
-    system: true
-  });
-  removeUserFromList(user);
-});
-
-socket.on('update-users', (userList) => {
-  updateUserList(userList);
-});
+document.getElementById('sendBtn').addEventListener("click", sendMessage);
+document.getElementById('fileInput').addEventListener("change", sendImage);
 
 function sendMessage() {
-  const input = document.getElementById('message-input');
-  const message = input.value;
-  if (message.trim()) {
-    socket.emit('chat-message', message);
+  const input = document.getElementById('msgInput');
+  const chat = document.getElementById('chat');
+  const msg = input.value.trim();
+
+  if (msg.startsWith('/') || msg.toLowerCase().startsWith('>//')) {
+    handleCommand(msg);
     input.value = '';
+    return;
+  }
+
+  if (msg) {
+    const div = document.createElement('div');
+    div.className = "chat-msg";
+    div.innerHTML = "<img src='" + avatarSrc + "' class='avatar'><strong>" + username + ":</strong> " + msg;
+    chat.appendChild(div);
+    input.value = '';
+    chat.scrollTop = chat.scrollHeight;
   }
 }
 
-function addMessage({ user = null, text, system = false }) {
-  const messages = document.getElementById('messages');
-  const div = document.createElement('div');
-  div.classList.add('message-bubble');
+function handleCommand(cmd) {
+  const chat = document.getElementById('chat');
+  const command = cmd.toLowerCase();
+  const response = document.createElement('div');
+  response.className = "chat-msg";
+  response.innerHTML = "<img src='" + avatarSrc + "' class='avatar'><strong>404Buddy:</strong> ";
 
-  if (system) {
-    div.classList.add('system');
-  } else if (user === username) {
-    div.classList.add('you');
+  if (command === "/joke") {
+    response.innerHTML += "Pourquoi les pirates aiment l'hiver ? Parce qu'ils gèlent tous les ports.";
+  } else if (command === "/ping") {
+    response.innerHTML += "pong.";
+  } else if (command === "/error") {
+    response.innerHTML += "<span style='color:red;'>ERREUR FATALE : cerveau non détecté</span>";
+  } else {
+    response.innerHTML += "Commande inconnue : " + cmd;
   }
 
-  const localTime = new Date().toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit'
-  });
+  chat.appendChild(response);
+  chat.scrollTop = chat.scrollHeight;
+}
 
-  const timeTag = document.createElement('span');
-  timeTag.classList.add('timestamp');
-  timeTag.textContent = `🕒 ${localTime}`;
-  div.appendChild(timeTag);
+function changeUsername() {
+  const newName = prompt("Nouveau pseudo :");
+  if (newName) {
+    document.getElementById('pseudo').innerText = newName + ":";
+    document.getElementById('userName').innerText = newName;
+  }
+  document.getElementById('settingsPopup').style.display = 'none';
+}
 
-  const content = document.createElement('div');
-  content.textContent = user && !system ? `${user}: ${text}` : text;
-  div.appendChild(content);
-
-  messages.appendChild(div);
-  messages.scrollTop = messages.scrollHeight;
-
-  if (system) {
-    setTimeout(() => {
-      div.remove();
-    }, 10000);
+function sendImage(event) {
+  const file = event.target.files[0];
+  if (file && file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const chat = document.getElementById('chat');
+      const div = document.createElement('div');
+      div.className = "chat-msg";
+      div.innerHTML = "<img src='" + avatarSrc + "' class='avatar'><strong>" + username + ":</strong><br><img src='" + e.target.result + "' class='shared-img' onclick='previewImage(this.src)'>";
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    };
+    reader.readAsDataURL(file);
   }
 }
 
-function addUserToList(user) {
-  const userList = document.getElementById('user-list');
-  const li = document.createElement('li');
-  li.id = `user-${user}`;
-  li.textContent = user;
-  userList.appendChild(li);
+function previewImage(src) {
+  const preview = document.getElementById('imagePreview');
+  const img = document.getElementById('previewImg');
+  img.src = src;
+  preview.style.display = 'flex';
 }
-
-function removeUserFromList(user) {
-  const el = document.getElementById(`user-${user}`);
-  if (el) el.remove();
-}
-
-function updateUserList(users) {
-  const userList = document.getElementById('user-list');
-  userList.innerHTML = '';
-  users.forEach(addUserToList);
-}
-
-function toggleUsers() {
-  const box = document.getElementById('users-box');
-  box.classList.toggle('hidden');
-}
-
-// ✅ Activation de "Entrée" pour envoyer le message
-document.addEventListener('DOMContentLoaded', () => {
-  const input = document.getElementById('message-input');
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      sendMessage();
-    }
-  });
-});
