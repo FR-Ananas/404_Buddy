@@ -4,13 +4,18 @@ if (!sessionStorage.getItem("username") || !sessionStorage.getItem("avatar")) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  const socket = io();
+  const socket = io({ transports: ["websocket"] });
+
+  socket.on("connect_error", (err) => {
+    console.error("Erreur de connexion Socket.IO :", err.message);
+  });
 
   const avatarSrc = sessionStorage.getItem("avatar");
   const username = sessionStorage.getItem("username");
 
-  // Envoie les infos de l'utilisateur au serveur
-  socket.emit("userJoined", { username, avatar: avatarSrc });
+  if (username && avatarSrc) {
+    socket.emit("userJoined", { username, avatar: avatarSrc });
+  }
 
   const userPic = document.getElementById('userPic');
   const userName = document.getElementById('userName');
@@ -36,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function sendMessage(msg) {
     msg = msg.trim();
-    console.log("[mobile/desktop] tentative d'envoi :", msg); // ✅ log pour debug
+    console.log("[mobile/desktop] tentative d'envoi :", msg); // debug
 
     if (!msg) return;
 
