@@ -249,47 +249,65 @@ footer {
   from { width: 0%; }
   to { width: 100%; }
 }
+
+/* 📱 RESPONSIVE : même structure, juste plus petit */
 @media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-    height: auto;
+  body {
+    font-size: 13px;
+  }
+
+  header {
+    font-size: 15px;
+    padding: 6px 12px;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  nav div {
+    margin: 4px 8px;
   }
 
   .sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #ccc;
+    width: 130px;
+    font-size: 12px;
   }
 
   .main {
     padding: 8px;
-    flex: 1;
   }
 
   .chat-window {
-    max-height: 60vh;
+    font-size: 12px;
+    padding: 8px;
   }
 
   .input-box {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: nowrap;
   }
 
   .input-box input {
-    width: 100%;
-    margin-bottom: 6px;
+    font-size: 12px;
+    padding: 5px;
   }
 
   .input-box button {
-    width: 100%;
-    margin-left: 0;
+    font-size: 12px;
+    padding: 5px 10px;
   }
 
-  nav {
-    flex-direction: column;
-    gap: 4px;
+  .popup {
+    width: 90%;
   }
 
-  nav div {
-    margin-right: 0;
+  #loginBox {
+    width: 90%;
+  }
+
+  #xpPopupWindow {
+    width: 90%;
   }
 }
