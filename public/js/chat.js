@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const avatarSrc = sessionStorage.getItem("avatar") || "";
   const username = sessionStorage.getItem("username") || "YOU";
 
-  // Assure-toi que les éléments existent avant d’écrire dedans
   const userPic = document.getElementById('userPic');
   const userName = document.getElementById('userName');
   const pseudo = document.getElementById('pseudo');
@@ -13,12 +12,20 @@ document.addEventListener("DOMContentLoaded", function () {
   if (pseudo) pseudo.innerText = username + ":";
   if (avatarChat) avatarChat.src = avatarSrc;
 
-  document.getElementById('sendBtn').addEventListener("click", sendMessage);
-  document.getElementById('fileInput').addEventListener("change", sendImage);
+  const sendBtn = document.getElementById('sendBtn');
+  const input = document.getElementById('msgInput');
+  const chat = document.getElementById('chat');
+
+  sendBtn.addEventListener("click", sendMessage);
+
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
 
   function sendMessage() {
-    const input = document.getElementById('msgInput');
-    const chat = document.getElementById('chat');
     const msg = input.value.trim();
 
     if (msg.startsWith('/') || msg.toLowerCase().startsWith('>//')) {
@@ -38,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function handleCommand(cmd) {
-    const chat = document.getElementById('chat');
     const command = cmd.toLowerCase();
     const response = document.createElement('div');
     response.className = "chat-msg";
@@ -72,7 +78,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onload = function(e) {
-        const chat = document.getElementById('chat');
         const div = document.createElement('div');
         div.className = "chat-msg";
         div.innerHTML = "<img src='" + avatarSrc + "' class='avatar'><strong>" + username + ":</strong><br><img src='" + e.target.result + "' class='shared-img' onclick='previewImage(this.src)'>";
