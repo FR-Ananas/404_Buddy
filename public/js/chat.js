@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const socket = io();
+
   const avatarSrc = sessionStorage.getItem("avatar") || "";
   const username = sessionStorage.getItem("username") || "YOU";
 
@@ -16,17 +18,17 @@ document.addEventListener("DOMContentLoaded", function () {
   const input = document.getElementById('msgInput');
   const chat = document.getElementById('chat');
 
-  sendBtn.addEventListener("click", sendMessage);
-
+  sendBtn.addEventListener("click", () => sendMessage(input.value));
   input.addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
       e.preventDefault();
-      sendMessage();
+      sendMessage(input.value);
     }
   });
 
-  function sendMessage() {
-    const msg = input.value.trim();
+  function sendMessage(msg) {
+    msg = msg.trim();
+    if (!msg) return;
 
     if (msg.startsWith('/') || msg.toLowerCase().startsWith('>//')) {
       handleCommand(msg);
@@ -34,15 +36,22 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    if (msg) {
-      const div = document.createElement('div');
-      div.className = "chat-msg";
-      div.innerHTML = "<img src='" + avatarSrc + "' class='avatar'><strong>" + username + ":</strong> " + msg;
-      chat.appendChild(div);
-      input.value = '';
-      chat.scrollTop = chat.scrollHeight;
-    }
+    socket.emit("message", {
+      username: username,
+      avatar: avatarSrc,
+      content: msg
+    });
+
+    input.value = '';
   }
+
+  socket.on("message", function(data) {
+    const div = document.createElement("div");
+    div.className = "chat-msg";
+    div.innerHTML = "<img src='" + data.avatar + "' class='avatar'><strong>" + data.username + ":</strong> " + data.content;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+  });
 
   function handleCommand(cmd) {
     const command = cmd.toLowerCase();
@@ -62,15 +71,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     chat.appendChild(response);
     chat.scrollTop = chat.scrollHeight;
-  }
-
-  function changeUsername() {
-    const newName = prompt("Nouveau pseudo :");
-    if (newName) {
-      document.getElementById('pseudo').innerText = newName + ":";
-      document.getElementById('userName').innerText = newName;
-    }
-    document.getElementById('settingsPopup').style.display = 'none';
   }
 
   function sendImage(event) {
