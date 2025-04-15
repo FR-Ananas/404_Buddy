@@ -337,4 +337,7 @@ footer {
   overflow-wrap: break-word;
   white-space: normal;
 }
-
+input,
+textarea {
+  font-size: 16px !important;
+}
