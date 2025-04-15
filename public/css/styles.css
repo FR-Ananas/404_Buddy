@@ -269,3 +269,41 @@ body.dark-mode .sidebar {
     width: 90%;
   }
 }
+/* 🔧 Corrige les boutons invisibles dans le nav en dark-mode */
+body.dark-mode nav {
+  background-color: #181818;
+  border-bottom: 1px solid #444;
+}
+body.dark-mode nav div {
+  color: #eee;
+}
+
+/* 🔧 Corrige l'apparence du header */
+body.dark-mode header {
+  background-color: #222;
+  border-bottom: 2px solid #444;
+  color: #fff;
+}
+
+/* 🔧 Fix page de connexion cassée */
+#loginScreen {
+  background: #d8dfea;
+}
+body.dark-mode #loginScreen {
+  background: #1e1e1e;
+}
+body.dark-mode #loginBox {
+  background-color: #2a2a2a;
+  color: #eee;
+}
+body.dark-mode #loginBox input[type="text"] {
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #555;
+}
+body.dark-mode #customFile {
+  background-color: #444;
+}
+body.dark-mode #loginBox button {
+  background-color: #3b5998;
+}
