@@ -1,4 +1,13 @@
-// 🔐 Redirection si pas connecté
+// Fonctions accessibles globalement
+window.logout = function () {
+  sessionStorage.clear();
+  window.location.href = "/login.html";
+};
+
+window.toggleTheme = function () {
+  document.body.classList.toggle("dark-mode");
+};
+
 if (!sessionStorage.getItem("username") || !sessionStorage.getItem("avatar")) {
   window.location.href = "/login.html";
 }
@@ -107,38 +116,10 @@ document.addEventListener("DOMContentLoaded", function () {
     chat.scrollTop = chat.scrollHeight;
   }
 
-  function sendImage(event) {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const div = document.createElement('div');
-        div.className = "chat-msg";
-        div.innerHTML = `<img src="${avatarSrc}" class="avatar">
-        <div class="msg-text"><strong>${username}:</strong><br>
-        <img src="${e.target.result}" class="shared-img" onclick="previewImage(this.src)">
-        </div>`;
-        chat.appendChild(div);
-        chat.scrollTop = chat.scrollHeight;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
   window.previewImage = function(src) {
     const preview = document.getElementById('imagePreview');
     const img = document.getElementById('previewImg');
     img.src = src;
     preview.style.display = 'flex';
-  };
-
-  // ✅ Paramètres : déconnexion et thème
-  window.logout = function () {
-    sessionStorage.clear();
-    window.location.href = "/login.html";
-  };
-
-  window.toggleTheme = function () {
-    document.body.classList.toggle("dark-mode");
   };
 });
