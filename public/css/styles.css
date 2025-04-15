@@ -92,6 +92,9 @@ nav div {
   display: flex;
   align-items: center;
   margin-bottom: 8px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 .chat-msg img.shared-img {
   max-width: 100%;
@@ -265,19 +268,11 @@ footer {
   to { width: 100%; }
 }
 
-/* 📱 Responsive - même structure, plus petit */
+/* 📱 Responsive */
 @media (max-width: 768px) {
-  body {
-    font-size: 13px;
-  }
-
   nav {
     flex-wrap: wrap;
     justify-content: space-around;
-  }
-
-  nav div {
-    margin: 4px 8px;
   }
 
   .sidebar {
@@ -305,9 +300,4 @@ footer {
   #xpPopupWindow {
     width: 90%;
   }
-}
-.chat-msg {
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: normal;
 }
