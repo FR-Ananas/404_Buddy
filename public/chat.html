@@ -34,11 +34,11 @@
   </div>
 </div>
 
+<!-- ✅ Nouveau menu paramètres -->
 <div class="popup" id="settingsPopup">
   <h3>Paramètres</h3>
-  <p>Ici tu peux modifier ton pseudo depuis le bouton "Paramètres".</p>
-  <button onclick="changeUsername()">Changer de pseudo</button>
-  <button onclick="location.reload()">Se déconnecter</button>
+  <button onclick="toggleTheme()">🌙 Mode Sombre / Clair</button>
+  <button onclick="logout()">🚪 Se déconnecter</button>
   <button onclick="document.getElementById('settingsPopup').style.display='none'">Fermer</button>
 </div>
 
@@ -54,7 +54,7 @@
 
 <footer>404Buddy - Dernière mise à jour : avril 2004</footer>
 
-<!-- ⚡ Socket.IO + Chat logic -->
+<!-- Scripts -->
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/chat.js"></script>
 </body>
