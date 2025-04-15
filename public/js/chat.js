@@ -41,8 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function sendMessage(msg) {
     msg = msg.trim();
-    console.log("[mobile/desktop] tentative d'envoi :", msg); // debug
-
     if (!msg) return;
 
     if (msg.startsWith('/') || msg.toLowerCase().startsWith('>//')) {
@@ -63,7 +61,12 @@ document.addEventListener("DOMContentLoaded", function () {
   socket.on("message", function(data) {
     const div = document.createElement("div");
     div.className = "chat-msg";
-    div.innerHTML = "<img src='" + data.avatar + "' class='avatar'><strong>" + data.username + ":</strong> " + data.content;
+    div.innerHTML = `
+      <img src="${data.avatar}" class="avatar">
+      <div class="msg-text">
+        <strong>${data.username}:</strong> ${data.content}
+      </div>
+    `;
     chat.appendChild(div);
     chat.scrollTop = chat.scrollHeight;
   });
@@ -92,7 +95,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const command = cmd.toLowerCase();
     const response = document.createElement('div');
     response.className = "chat-msg";
-    response.innerHTML = "<img src='" + avatarSrc + "' class='avatar'><strong>404Buddy:</strong> ";
+    response.innerHTML = `<img src="${avatarSrc}" class="avatar">
+    <div class="msg-text"><strong>404Buddy:</strong> `;
 
     if (command === "/joke") {
       response.innerHTML += "Pourquoi les pirates aiment l'hiver ? Parce qu'ils gèlent tous les ports.";
@@ -104,6 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
       response.innerHTML += "Commande inconnue : " + cmd;
     }
 
+    response.innerHTML += "</div>";
     chat.appendChild(response);
     chat.scrollTop = chat.scrollHeight;
   }
@@ -115,7 +120,10 @@ document.addEventListener("DOMContentLoaded", function () {
       reader.onload = function(e) {
         const div = document.createElement('div');
         div.className = "chat-msg";
-        div.innerHTML = "<img src='" + avatarSrc + "' class='avatar'><strong>" + username + ":</strong><br><img src='" + e.target.result + "' class='shared-img' onclick='previewImage(this.src)'>";
+        div.innerHTML = `<img src="${avatarSrc}" class="avatar">
+        <div class="msg-text"><strong>${username}:</strong><br>
+        <img src="${e.target.result}" class="shared-img" onclick="previewImage(this.src)">
+        </div>`;
         chat.appendChild(div);
         chat.scrollTop = chat.scrollHeight;
       };
@@ -123,10 +131,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  function previewImage(src) {
+  window.previewImage = function(src) {
     const preview = document.getElementById('imagePreview');
     const img = document.getElementById('previewImg');
     img.src = src;
     preview.style.display = 'flex';
-  }
+  };
 });
