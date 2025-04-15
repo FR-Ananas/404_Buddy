@@ -1,3 +1,313 @@
+/* Reset global */
+html, body {
+  margin: 0;
+  height: 100dvh;
+  overflow-x: hidden;
+  font-family: Tahoma, sans-serif;
+  background-color: #d8dfea;
+  color: #000;
+}
+
+/* Header */
+header {
+  background-color: #3b5998;
+  color: white;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 2px solid #1c2a4a;
+}
+
+/* Navigation */
+nav {
+  background-color: #eceff5;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+nav div {
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+/* File input (hidden) */
+#fileInput {
+  display: none;
+}
+
+/* Container */
+.container {
+  display: flex;
+  height: calc(100dvh - 78px);
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 200px;
+  background-color: #f5f6f7;
+  border-right: 1px solid #ccc;
+  padding: 10px;
+  font-size: 13px;
+  box-sizing: border-box;
+  min-width: 0;
+}
+.sidebar h3 {
+  font-size: 13px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 4px;
+}
+.sidebar .user {
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sidebar .user img,
+.chat-msg img.avatar {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border: 2px solid #3b5998;
+  border-radius: 4px;
+}
+
+/* Main */
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 12px;
+  background-color: white;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Chat window */
+.chat-window {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid #aaa;
+  padding: 10px;
+  background: #f9f9f9;
+  font-size: 13px;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Messages */
+.chat-msg {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  min-width: 0;
+}
+.chat-msg * {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+.msg-text {
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+.chat-msg img.shared-img {
+  max-width: 100%;
+  margin-top: 5px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+/* Input */
+.input-box {
+  display: flex;
+  margin-top: 10px;
+  flex-shrink: 0;
+  min-width: 0;
+}
+.input-box input {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid #999;
+  font-size: 16px !important; /* pour éviter le zoom iOS */
+  box-sizing: border-box;
+  min-width: 0;
+  white-space: normal;
+}
+.input-box button {
+  background: #3b5998;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+/* Footer */
+footer {
+  background-color: #eceff5;
+  padding: 6px 12px;
+  font-size: 11px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}
+
+/* Popup */
+.popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 2px solid #666;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 0 10px #00000055;
+  display: none;
+  z-index: 100;
+}
+.popup h3 {
+  margin-top: 0;
+  font-size: 16px;
+  color: #3b5998;
+}
+.popup button {
+  margin-top: 10px;
+  background: #3b5998;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  margin-right: 6px;
+}
+
+/* Image preview */
+#imagePreview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  display: none;
+}
+#imagePreview img {
+  max-width: 90%;
+  max-height: 90%;
+  border: 4px solid white;
+}
+
+/* Mode sombre */
+body.dark-mode {
+  background-color: #1e1e1e;
+  color: #eee;
+}
+body.dark-mode .main {
+  background-color: #2a2a2a;
+}
+body.dark-mode .chat-window {
+  background-color: #333;
+  color: #eee;
+}
+body.dark-mode .input-box input {
+  background-color: #222;
+  color: #fff;
+  border-color: #555;
+}
+body.dark-mode .input-box button {
+  background-color: #444;
+}
+body.dark-mode .popup {
+  background: #2e2e2e;
+  color: #eee;
+}
+body.dark-mode .sidebar {
+  background-color: #2c2c2c;
+  color: #eee;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  nav {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .sidebar {
+    width: 130px;
+    font-size: 12px;
+  }
+  .main {
+    padding: 8px;
+  }
+  .chat-window {
+    font-size: 12px;
+    padding: 8px;
+  }
+  .input-box input,
+  .input-box button {
+    font-size: 12px;
+    padding: 5px;
+  }
+  .popup,
+  #loginBox,
+  #xpPopupWindow {
+    width: 90%;
+  }
+}
+/* 🔧 Corrige les boutons invisibles dans le nav en dark-mode */
+body.dark-mode nav {
+  background-color: #181818;
+  border-bottom: 1px solid #444;
+}
+body.dark-mode nav div {
+  color: #eee;
+}
+
+/* 🔧 Corrige l'apparence du header */
+body.dark-mode header {
+  background-color: #222;
+  border-bottom: 2px solid #444;
+  color: #fff;
+}
+
+/* 🔧 Fix page de connexion cassée */
+#loginScreen {
+  background: #d8dfea;
+}
+body.dark-mode #loginScreen {
+  background: #1e1e1e;
+}
+body.dark-mode #loginBox {
+  background-color: #2a2a2a;
+  color: #eee;
+}
+body.dark-mode #loginBox input[type="text"] {
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #555;
+}
+body.dark-mode #customFile {
+  background-color: #444;
+}
+body.dark-mode #loginBox button {
+  background-color: #3b5998;
+}
+
 /* Login screen */
 #loginScreen {
   position: fixed;
