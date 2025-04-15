@@ -1,150 +1,319 @@
-/* Reset styles */
-* {
+/* Reset et configuration globale */
+html, body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  height: 100dvh;
+  overflow-x: hidden; /* Empêche le scroll horizontal global */
+  font-family: Tahoma, sans-serif;
+  background-color: #d8dfea;
+  color: #000;
 }
 
-/* Body and general layout */
-html, body {
-  font-family: 'Arial', sans-serif;
-  height: 100%;
-  background-color: #f4f4f9;
-  overflow-x: hidden; /* Empêche le scroll horizontal */
+/* En-tête et navigation */
+header {
+  background-color: #3b5998;
+  color: white;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 2px solid #1c2a4a;
 }
 
+nav {
+  background-color: #eceff5;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+nav div {
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+/* Masquer l'input de fichier */
+#fileInput {
+  display: none;
+}
+
+/* Conteneur principal */
 .container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  width: 100%;
-  padding: 20px;
-  background-color: #f4f4f9;
+  height: calc(100dvh - 78px); /* header (36px) + nav (42px) */
+  overflow: hidden;
 }
 
+/* Sidebar */
+.sidebar {
+  width: 200px;
+  background-color: #f5f6f7;
+  border-right: 1px solid #ccc;
+  padding: 10px;
+  font-size: 13px;
+  box-sizing: border-box;
+  min-width: 0; /* Critique pour éviter le débordement */
+}
+.sidebar h3 {
+  font-size: 13px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 4px;
+}
+.sidebar .user {
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sidebar .user img,
+.chat-msg img.avatar {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border: 2px solid #3b5998;
+  border-radius: 4px;
+}
+
+/* Zone principale du chat */
 .main {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 900px;
-  height: 100%;
+  flex: 1;
+  padding: 12px;
   background-color: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  box-sizing: border-box;
+  min-width: 0; /* Pour éviter que le contenu étire le conteneur */
+  min-height: 0;
 }
 
-/* Chat Header */
-.chat-header {
-  width: 100%;
-  text-align: center;
-  font-size: 2em;
-  margin-bottom: 20px;
-}
-
-/* Chat window styles */
+/* Fenêtre de chat */
 .chat-window {
-  width: 100%;
   flex: 1;
   overflow-y: auto;
+  border: 1px solid #aaa;
   padding: 10px;
-  border-radius: 8px;
-  background-color: #f7f7f7;
-  min-width: 0; /* Important for preventing overflow */
-  margin-bottom: 20px;
+  background: #f9f9f9;
+  font-size: 13px;
+  box-sizing: border-box;
+  min-width: 0; /* Très important avec flex */
+  min-height: 0;
 }
 
+/* Style des messages dans le chat */
 .chat-msg {
   display: flex;
-  margin-bottom: 15px;
-  word-wrap: break-word; /* Enforce line breaks for long messages */
+  align-items: center;
+  margin-bottom: 8px;
+  /* Forcer le retour à la ligne */
+  word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
+  min-width: 0;
+}
+.chat-msg img.shared-img {
+  max-width: 100%;
+  margin-top: 5px;
+  cursor: pointer;
+  border: 1px solid #ccc;
 }
 
-.chat-msg img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.chat-msg .message {
-  background-color: #e4e4e4;
-  padding: 10px;
-  border-radius: 10px;
-  max-width: 80%;
-  word-wrap: break-word;
-}
-
-/* Input box styles */
+/* Zone de saisie */
 .input-box {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  margin-top: 10px;
+  flex-shrink: 0;
+  min-width: 0;
 }
-
-.input-box textarea {
-  width: 90%;
-  height: 50px;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  resize: none;
-  font-size: 16px;
-}
-
-.input-box button {
-  width: 8%;
-  padding: 10px;
-  background-color: #3498db;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.input-box button:hover {
-  background-color: #2980b9;
-}
-
-/* User list */
-.user-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  overflow-y: auto;
-  max-height: 300px;
-  margin-top: 20px;
-}
-
-.user-list li {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.user-list li img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.user-list li span {
-  font-size: 16px;
-}
-
-/* Prevent elements from overflowing the layout */
-.container, .main, .chat-window, .input-box, .chat-msg {
-  min-width: 0; /* Important for preventing overflow */
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+.input-box input {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid #999;
+  font-size: 13px;
+  box-sizing: border-box;
+  min-width: 0;
   white-space: normal;
 }
+.input-box button {
+  background: #3b5998;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+/* Pied de page */
+footer {
+  background-color: #eceff5;
+  padding: 6px 12px;
+  font-size: 11px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}
+
+/* Popups */
+.popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 2px solid #666;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 0 10px #00000055;
+  display: none;
+  z-index: 100;
+}
+.popup h3 {
+  margin-top: 0;
+  font-size: 16px;
+  color: #3b5998;
+}
+.popup button {
+  margin-top: 10px;
+  background: #3b5998;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  margin-right: 6px;
+}
+
+/* Page de connexion */
+#loginScreen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: #d8dfea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+#loginBox {
+  background: white;
+  padding: 20px;
+  border: 1px solid #999;
+  box-shadow: 0 0 20px #3b5998aa;
+  text-align: center;
+  width: 300px;
+  border-radius: 6px;
+}
+#loginBox input[type="text"] {
+  margin-bottom: 10px;
+  padding: 6px;
+  width: 100%;
+  font-size: 14px;
+}
+#customFile {
+  display: inline-block;
+  background: #3b5998;
+  color: white;
+  padding: 6px 12px;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+#loginBox input[type="file"] {
+  display: none;
+}
+#fileLabelText {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 10px;
+  display: block;
+}
+#loginBox button {
+  background: #3b5998;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* XP Loader */
+#xpLoaderPopup {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+#xpPopupWindow {
+  width: 320px;
+  background: #e8e8e8;
+  border: 2px solid #3b5998;
+  box-shadow: 0 0 12px #000;
+  font-family: Tahoma, sans-serif;
+}
+.xpHeader {
+  background: linear-gradient(to right, #1c2a4a, #3b5998);
+  color: white;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: bold;
+  border-bottom: 1px solid #1c2a4a;
+}
+.xpContent {
+  padding: 15px;
+  font-size: 13px;
+  color: #000;
+}
+.xpProgressBar {
+  width: 100%;
+  height: 20px;
+  background: #c0c0c0;
+  border: 1px inset #aaa;
+  margin-top: 10px;
+}
+.xpBar {
+  width: 0%;
+  height: 100%;
+  background: #4caf50;
+  animation: xpLoad 2.5s linear forwards;
+}
+@keyframes xpLoad {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  nav {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .sidebar {
+    width: 130px;
+    font-size: 12px;
+  }
+
+  .main {
+    padding: 8px;
+  }
+
+  .chat-window {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .input-box input,
+  .input-box button {
+    font-size: 12px;
+    padding: 5px;
+  }
+
+  .
