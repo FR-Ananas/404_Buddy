@@ -6,16 +6,10 @@ if (!sessionStorage.getItem("username") || !sessionStorage.getItem("avatar")) {
 document.addEventListener("DOMContentLoaded", function () {
   const socket = io({ transports: ["websocket"] });
 
-  socket.on("connect_error", (err) => {
-    console.error("Erreur de connexion Socket.IO :", err.message);
-  });
-
   const avatarSrc = sessionStorage.getItem("avatar");
   const username = sessionStorage.getItem("username");
 
-  if (username && avatarSrc) {
-    socket.emit("userJoined", { username, avatar: avatarSrc });
-  }
+  socket.emit("userJoined", { username, avatar: avatarSrc });
 
   const userPic = document.getElementById('userPic');
   const userName = document.getElementById('userName');
@@ -136,5 +130,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const img = document.getElementById('previewImg');
     img.src = src;
     preview.style.display = 'flex';
+  };
+
+  // ✅ Paramètres : déconnexion et thème
+  window.logout = function () {
+    sessionStorage.clear();
+    window.location.href = "/login.html";
+  };
+
+  window.toggleTheme = function () {
+    document.body.classList.toggle("dark-mode");
   };
 });
