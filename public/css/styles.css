@@ -306,3 +306,8 @@ footer {
     width: 90%;
   }
 }
+.chat-msg {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
