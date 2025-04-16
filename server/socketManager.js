@@ -1,8 +1,14 @@
 const users = new Map();
+const messageHistory = []; // 🔁 stockage des derniers messages
+
+const MAX_HISTORY = 50;
 
 module.exports = function (io) {
   io.on("connection", (socket) => {
     console.log("🟢 Client connecté :", socket.id);
+
+    // ✅ Envoyer l'historique des messages dès la connexion
+    socket.emit("history", messageHistory);
 
     socket.on("userJoined", (userData) => {
       users.set(socket.id, userData);
@@ -12,12 +18,26 @@ module.exports = function (io) {
 
     socket.on("message", (data) => {
       console.log("💬 Message de", data.username, ":", data.content);
-      io.emit("message", data); // ✅ tous les utilisateurs reçoivent
+
+      // ✅ Ajouter au tableau d'historique (et garder max 50)
+      messageHistory.push({ type: "text", ...data });
+      if (messageHistory.length > MAX_HISTORY) {
+        messageHistory.shift(); // Supprime le plus ancien
+      }
+
+      io.emit("message", data);
     });
 
     socket.on("image", (data) => {
       console.log("🖼️ Image reçue de", data.username);
-      io.emit("image", data); // ✅ tous les utilisateurs reçoivent
+
+      // ✅ Ajouter au tableau d'historique
+      messageHistory.push({ type: "image", ...data });
+      if (messageHistory.length > MAX_HISTORY) {
+        messageHistory.shift();
+      }
+
+      io.emit("image", data);
     });
 
     socket.on("disconnect", () => {
