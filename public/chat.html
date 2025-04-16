@@ -11,12 +11,17 @@
 <header>404Buddy v2.0b</header>
 
 <nav>
-  <div onclick="document.getElementById('fileInput').click()">Fichier</div>
+  <div onclick="toggleFileMenu()" id="fileBtn">Fichier</div>
   <div onclick="document.getElementById('settingsPopup').style.display='block'">Paramètres</div>
   <div onclick="document.getElementById('helpPopup').style.display='block'">Aide</div>
 </nav>
 
-<input type="file" id="fileInput" accept="image/*"/>
+<!-- 📎 Menu déroulant -->
+<div id="fileMenu" class="dropdown-menu">
+  <div onclick="triggerImageUpload()">📷 Envoyer une image</div>
+</div>
+
+<input type="file" id="fileInput" accept="image/*" onchange="sendImage(event)">
 
 <div class="container">
   <div class="sidebar">
@@ -33,7 +38,6 @@
   </div>
 </div>
 
-<!-- Menu paramètres -->
 <div class="popup" id="settingsPopup">
   <h3>Paramètres</h3>
   <button onclick="toggleTheme()">🌙 Mode Sombre / Clair</button>
@@ -41,21 +45,18 @@
   <button onclick="document.getElementById('settingsPopup').style.display='none'">Fermer</button>
 </div>
 
-<!-- Aide -->
 <div class="popup" id="helpPopup">
   <h3>Aide</h3>
   <p>ERREUR : Personne ne peut rien pour toi.</p>
   <button onclick="document.getElementById('helpPopup').style.display='none'">OK</button>
 </div>
 
-<!-- Aperçu image -->
 <div id="imagePreview" onclick="this.style.display='none'">
   <img id="previewImg" src="">
 </div>
 
 <footer>404Buddy - Dernière mise à jour : avril 2004</footer>
 
-<!-- Scripts -->
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/chat.js"></script>
 </body>
