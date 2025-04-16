@@ -12,7 +12,6 @@
 
 <nav>
   <div onclick="document.getElementById('fileInput').click()">Fichier</div>
-  <div onclick="location.reload()">Discussion</div>
   <div onclick="document.getElementById('settingsPopup').style.display='block'">Paramètres</div>
   <div onclick="document.getElementById('helpPopup').style.display='block'">Aide</div>
 </nav>
@@ -34,6 +33,7 @@
   </div>
 </div>
 
+<!-- Menu paramètres -->
 <div class="popup" id="settingsPopup">
   <h3>Paramètres</h3>
   <button onclick="toggleTheme()">🌙 Mode Sombre / Clair</button>
@@ -41,12 +41,14 @@
   <button onclick="document.getElementById('settingsPopup').style.display='none'">Fermer</button>
 </div>
 
+<!-- Aide -->
 <div class="popup" id="helpPopup">
   <h3>Aide</h3>
   <p>ERREUR : Personne ne peut rien pour toi.</p>
   <button onclick="document.getElementById('helpPopup').style.display='none'">OK</button>
 </div>
 
+<!-- Aperçu image -->
 <div id="imagePreview" onclick="this.style.display='none'">
   <img id="previewImg" src="">
 </div>
