@@ -145,22 +145,12 @@ document.addEventListener("DOMContentLoaded", function () {
       reader.onload = function(e) {
         const imageData = e.target.result;
 
-        // Envoyer l'image à tous
+        // ⚡ Envoi à tous via Socket.IO (pas d'affichage local direct)
         socket.emit("image", {
           username,
           avatar: avatarSrc,
           image: imageData
         });
-
-        // Affichage local
-        const div = document.createElement('div');
-        div.className = "chat-msg";
-        div.innerHTML = `<img src="${avatarSrc}" class="avatar">
-        <div class="msg-text"><strong>${username}:</strong><br>
-        <img src="${imageData}" class="shared-img" onclick="previewImage(this.src)">
-        </div>`;
-        chat.appendChild(div);
-        chat.scrollTop = chat.scrollHeight;
       };
       reader.readAsDataURL(file);
     }
