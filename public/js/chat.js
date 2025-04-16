@@ -20,6 +20,33 @@ window.triggerImageUpload = function () {
   document.getElementById("fileMenu").classList.remove("show");
 };
 
+let pendingLink = null;
+
+function showLinkPopup(url) {
+  pendingLink = url;
+  document.getElementById("linkWarningText").innerText = `Souhaites-tu vraiment ouvrir ce lien ?\n${url}`;
+  document.getElementById("linkPopup").style.display = "block";
+}
+
+function closeLinkPopup() {
+  pendingLink = null;
+  document.getElementById("linkPopup").style.display = "none";
+}
+
+function proceedToLink() {
+  if (pendingLink) {
+    window.open(pendingLink, "_blank");
+  }
+  closeLinkPopup();
+}
+
+function parseMessageWithLinks(text) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  return text.replace(urlRegex, function (url) {
+    return `<a href="#" onclick="showLinkPopup('${url}')">${url}</a>`;
+  });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const socket = io({ transports: ["websocket"] });
 
@@ -69,21 +96,19 @@ document.addEventListener("DOMContentLoaded", function () {
     input.value = '';
   }
 
-  // 🔁 Réception des messages texte
   socket.on("message", function(data) {
     const div = document.createElement("div");
     div.className = "chat-msg";
     div.innerHTML = `
       <img src="${data.avatar}" class="avatar">
       <div class="msg-text">
-        <strong>${data.username}:</strong> ${data.content}
+        <strong>${data.username}:</strong> ${parseMessageWithLinks(data.content)}
       </div>
     `;
     chat.appendChild(div);
     chat.scrollTop = chat.scrollHeight;
   });
 
-  // 🖼️ Réception d’image
   socket.on("image", function(data) {
     const div = document.createElement("div");
     div.className = "chat-msg";
@@ -98,7 +123,6 @@ document.addEventListener("DOMContentLoaded", function () {
     chat.scrollTop = chat.scrollHeight;
   });
 
-  // 👥 Liste des utilisateurs connectés
   socket.on("userList", function(users) {
     const sidebar = document.querySelector(".sidebar");
     const userCount = document.getElementById("userCount");
@@ -119,7 +143,6 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
   });
 
-  // 📜 Historique des 50 derniers messages
   socket.on("history", function (messages) {
     messages.forEach((data) => {
       const div = document.createElement("div");
@@ -129,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
         div.innerHTML = `
           <img src="${data.avatar}" class="avatar">
           <div class="msg-text">
-            <strong>${data.username}:</strong> ${data.content}
+            <strong>${data.username}:</strong> ${parseMessageWithLinks(data.content)}
           </div>
         `;
       } else if (data.type === "image") {
@@ -170,14 +193,12 @@ document.addEventListener("DOMContentLoaded", function () {
     chat.scrollTop = chat.scrollHeight;
   }
 
-  // 📎 Envoi d'image
   window.sendImage = function (event) {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onload = function(e) {
         const imageData = e.target.result;
-
         socket.emit("image", {
           username,
           avatar: avatarSrc,
@@ -188,7 +209,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  // 🔍 Aperçu image
   window.previewImage = function(src) {
     const preview = document.getElementById('imagePreview');
     const img = document.getElementById('previewImg');
