@@ -8,6 +8,15 @@
 </head>
 <body>
 
+  <!-- ⚠️ Popup de lien externe -->
+<div id="linkPopup" class="popup" style="display:none;">
+  <h3>Redirection externe</h3>
+  <p>Tu t'apprêtes à quitter <strong>404Buddy</strong>.</p>
+  <p id="linkWarningText"></p>
+  <button onclick="proceedToLink()">Oui, continuer</button>
+  <button onclick="closeLinkPopup()">Annuler</button>
+</div>
+
 <header>404Buddy v2.0b</header>
 
 <nav>
