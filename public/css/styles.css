@@ -434,3 +434,39 @@ body.dark-mode #customFile {
 body.dark-mode #loginBox button {
   background: #3b5998;
 }
+/* 📎 Dropdown menu sous "Fichier" */
+.dropdown-menu {
+  position: absolute;
+  top: 78px;
+  left: 8px;
+  background-color: #fff;
+  border: 1px solid #aaa;
+  padding: 4px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  display: none;
+  z-index: 1000;
+  width: 180px;
+}
+.dropdown-menu div {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.dropdown-menu div:hover {
+  background-color: #f0f0f0;
+}
+.dropdown-menu.show {
+  display: block;
+}
+
+/* 🌙 Dark mode */
+body.dark-mode .dropdown-menu {
+  background-color: #2e2e2e;
+  border-color: #444;
+}
+body.dark-mode .dropdown-menu div {
+  color: #eee;
+}
+body.dark-mode .dropdown-menu div:hover {
+  background-color: #3a3a3a;
+}
