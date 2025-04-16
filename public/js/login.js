@@ -11,8 +11,21 @@ function login() {
   const name = document.getElementById('loginName').value.trim();
   const file = document.getElementById('loginPic').files[0];
 
-  if (!name || !file) {
-    alert("Entre un pseudo ET une image !");
+  if (!name) {
+    alert("Entre un pseudo !");
+    return;
+  }
+
+  // ✅ Si aucune image → avatar par défaut
+  if (!file) {
+    sessionStorage.setItem("username", name);
+    sessionStorage.setItem("avatar", "/img/noPictures.png");
+
+    document.getElementById('xpLoaderPopup').style.display = 'flex';
+
+    setTimeout(() => {
+      window.location.href = "/chat.html";
+    }, 2600);
     return;
   }
 
