@@ -1,29 +1,29 @@
+const users = new Map();
+
 module.exports = function (io) {
-  const users = [];
-
   io.on("connection", (socket) => {
-    console.log("Nouvelle connexion socket:", socket.id);
+    console.log("🟢 Client connecté :", socket.id);
 
-    socket.on("userJoined", (data) => {
-      users.push({ id: socket.id, username: data.username, avatar: data.avatar });
-      io.emit("userList", users);
+    socket.on("userJoined", (userData) => {
+      users.set(socket.id, userData);
+      console.log("👥 Connecté :", userData.username);
+      io.emit("userList", Array.from(users.values()));
     });
 
     socket.on("message", (data) => {
-      socket.broadcast.emit("message", data);
+      console.log("💬 Message de", data.username, ":", data.content);
+      io.emit("message", data); // ✅ tous les utilisateurs reçoivent
     });
 
-    // ✅ Nouveau : envoi d'image à tous
     socket.on("image", (data) => {
-      socket.broadcast.emit("image", data);
+      console.log("🖼️ Image reçue de", data.username);
+      io.emit("image", data); // ✅ tous les utilisateurs reçoivent
     });
 
     socket.on("disconnect", () => {
-      const index = users.findIndex(user => user.id === socket.id);
-      if (index !== -1) {
-        users.splice(index, 1);
-        io.emit("userList", users);
-      }
+      console.log("🔴 Déconnecté :", socket.id);
+      users.delete(socket.id);
+      io.emit("userList", Array.from(users.values()));
     });
   });
 };
