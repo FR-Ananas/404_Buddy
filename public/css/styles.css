@@ -470,3 +470,12 @@ body.dark-mode .dropdown-menu div {
 body.dark-mode .dropdown-menu div:hover {
   background-color: #3a3a3a;
 }
+/* 🛡️ Popup de lien externe */
+#linkPopup p {
+  font-size: 13px;
+  margin-top: 10px;
+  color: #222;
+}
+body.dark-mode #linkPopup p {
+  color: #eee;
+}
