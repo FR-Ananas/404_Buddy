@@ -8,6 +8,15 @@
 </head>
 <body>
 
+  <!-- ⚠️ Popup de lien externe -->
+<div id="linkPopup" class="popup" style="display:none;">
+  <h3>Redirection externe</h3>
+  <p>Tu t'apprêtes à quitter <strong>404Buddy</strong>.</p>
+  <p id="linkWarningText"></p>
+  <button onclick="proceedToLink()">Oui, continuer</button>
+  <button onclick="closeLinkPopup()">Annuler</button>
+</div>
+
 <header>404Buddy v2.0b</header>
 
 <nav>
@@ -16,11 +25,12 @@
   <div onclick="document.getElementById('helpPopup').style.display='block'">Aide</div>
 </nav>
 
+<!-- 📎 Menu déroulant -->
 <div id="fileMenu" class="dropdown-menu">
-  <div onclick="triggerImageUpload()">📷 Envoyer une image</div>
+  <div onclick="triggerImageUpload()">Envoyer une image</div>
 </div>
 
-<input type="file" id="fileInput" accept=".png,.jpg,.jpeg,.gif,.webp,.bmp,.svg,.ico,.tiff" onchange="sendImage(event)">
+<input type="file" id="fileInput" accept="image/*" onchange="sendImage(event)">
 
 <div class="container">
   <div class="sidebar">
@@ -29,12 +39,7 @@
     <div class="user"><img src="" id="userPic"> <span id="userName">YOU</span></div>
   </div>
   <div class="main">
-    <div class="chat-window" id="chat">
-      <div class="chat-msg">
-        <img src="" id="chatAvatar" class="avatar">
-        <strong id="pseudo">YOU:</strong> Bienvenue !
-      </div>
-    </div>
+    <div class="chat-window" id="chat"></div>
     <div class="input-box">
       <input type="text" id="msgInput" placeholder="Écris un message...">
       <button id="sendBtn">Envoyer</button>
@@ -44,8 +49,8 @@
 
 <div class="popup" id="settingsPopup">
   <h3>Paramètres</h3>
-  <button onclick="toggleTheme()">🌙 Mode Sombre / Clair</button>
-  <button onclick="logout()">🚪 Se déconnecter</button>
+  <button onclick="toggleTheme()">Mode Sombre / Clair</button>
+  <button onclick="logout()">Se déconnecter</button>
   <button onclick="document.getElementById('settingsPopup').style.display='none'">Fermer</button>
 </div>
 
@@ -57,14 +62,6 @@
 
 <div id="imagePreview" onclick="this.style.display='none'">
   <img id="previewImg" src="">
-</div>
-
-<div id="linkPopup" class="popup" style="display:none;">
-  <h3>Redirection externe</h3>
-  <p>Tu t'apprêtes à quitter <strong>404Buddy</strong>.</p>
-  <p id="linkWarningText"></p>
-  <button onclick="proceedToLink()">Oui, continuer</button>
-  <button onclick="closeLinkPopup()">Annuler</button>
 </div>
 
 <footer>404Buddy - Dernière mise à jour : avril 2004</footer>
