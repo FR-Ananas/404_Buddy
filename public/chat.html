@@ -8,15 +8,6 @@
 </head>
 <body>
 
-  <!-- ⚠️ Popup de lien externe -->
-<div id="linkPopup" class="popup" style="display:none;">
-  <h3>Redirection externe</h3>
-  <p>Tu t'apprêtes à quitter <strong>404Buddy</strong>.</p>
-  <p id="linkWarningText"></p>
-  <button onclick="proceedToLink()">Oui, continuer</button>
-  <button onclick="closeLinkPopup()">Annuler</button>
-</div>
-
 <header>404Buddy v2.0b</header>
 
 <nav>
@@ -27,10 +18,11 @@
 
 <!-- 📎 Menu déroulant -->
 <div id="fileMenu" class="dropdown-menu">
-  <div onclick="triggerImageUpload()">Envoyer une image</div>
+  <div onclick="triggerImageUpload()">📷 Envoyer une image</div>
 </div>
 
-<input type="file" id="fileInput" accept="image/*" onchange="sendImage(event)">
+<!-- ✅ Liste étendue de formats -->
+<input type="file" id="fileInput" accept=".png,.jpg,.jpeg,.gif,.webp,.bmp,.svg,.ico,.tiff" onchange="sendImage(event)">
 
 <div class="container">
   <div class="sidebar">
@@ -47,21 +39,33 @@
   </div>
 </div>
 
+<!-- Menu paramètres -->
 <div class="popup" id="settingsPopup">
   <h3>Paramètres</h3>
-  <button onclick="toggleTheme()">Mode Sombre / Clair</button>
-  <button onclick="logout()">Se déconnecter</button>
+  <button onclick="toggleTheme()">🌙 Mode Sombre / Clair</button>
+  <button onclick="logout()">🚪 Se déconnecter</button>
   <button onclick="document.getElementById('settingsPopup').style.display='none'">Fermer</button>
 </div>
 
+<!-- Aide -->
 <div class="popup" id="helpPopup">
   <h3>Aide</h3>
   <p>ERREUR : Personne ne peut rien pour toi.</p>
   <button onclick="document.getElementById('helpPopup').style.display='none'">OK</button>
 </div>
 
+<!-- Aperçu image -->
 <div id="imagePreview" onclick="this.style.display='none'">
   <img id="previewImg" src="">
+</div>
+
+<!-- 🔐 Confirmation lien externe -->
+<div id="linkPopup" class="popup" style="display:none;">
+  <h3>Redirection externe</h3>
+  <p>Tu t'apprêtes à quitter <strong>404Buddy</strong>.</p>
+  <p id="linkWarningText"></p>
+  <button onclick="proceedToLink()">Oui, continuer</button>
+  <button onclick="closeLinkPopup()">Annuler</button>
 </div>
 
 <footer>404Buddy - Dernière mise à jour : avril 2004</footer>
