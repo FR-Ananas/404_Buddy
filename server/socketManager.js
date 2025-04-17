@@ -1,45 +1,52 @@
 const users = new Map();
-const messageHistory = []; // 🔁 stockage des derniers messages
-
-const MAX_HISTORY = 50;
 
 module.exports = function (io) {
   io.on("connection", (socket) => {
-    console.log("🟢 Client connecté :", socket.id);
+    console.log("🟢 Nouveau client connecté :", socket.id);
 
-    // ✅ Envoyer l'historique des messages dès la connexion
-    socket.emit("history", messageHistory);
+    // 🔁 Envoie l'historique à la connexion (si tu stockes un historique)
+    socket.emit("history", global.messageHistory || []);
 
+    // 🧍 Quand un nouvel utilisateur se connecte
     socket.on("userJoined", (userData) => {
+      console.log("👥 Connexion de :", userData.username);
+
+      // 🔄 Vérifie si un autre socket utilise déjà ce pseudo
+      const existingEntry = [...users.entries()].find(([id, u]) => u.username === userData.username);
+
+      // 🔧 Supprime l'ancienne entrée avec le même pseudo
+      if (existingEntry) {
+        users.delete(existingEntry[0]);
+      }
+
       users.set(socket.id, userData);
-      console.log("👥 Connecté :", userData.username);
       io.emit("userList", Array.from(users.values()));
     });
 
+    // 💬 Message texte
     socket.on("message", (data) => {
-      console.log("💬 Message de", data.username, ":", data.content);
+      console.log("💬", data.username, ":", data.content);
 
-      // ✅ Ajouter au tableau d'historique (et garder max 50)
-      messageHistory.push({ type: "text", ...data });
-      if (messageHistory.length > MAX_HISTORY) {
-        messageHistory.shift(); // Supprime le plus ancien
-      }
+      // 🔒 Stocker dans l'historique global (50 derniers)
+      if (!global.messageHistory) global.messageHistory = [];
+      global.messageHistory.push({ type: "text", ...data });
+      if (global.messageHistory.length > 50) global.messageHistory.shift();
 
       io.emit("message", data);
     });
 
+    // 🖼️ Image
     socket.on("image", (data) => {
-      console.log("🖼️ Image reçue de", data.username);
+      console.log("🖼️ Image de", data.username);
 
-      // ✅ Ajouter au tableau d'historique
-      messageHistory.push({ type: "image", ...data });
-      if (messageHistory.length > MAX_HISTORY) {
-        messageHistory.shift();
-      }
+      if (!global.messageHistory) global.messageHistory = [];
+      global.messageHistory.push({ type: "image", ...data });
+      if (global.messageHistory.length > 50) global.messageHistory.shift();
 
       io.emit("image", data);
     });
 
+    // ❌ Déconnexion
     socket.on("disconnect", () => {
       console.log("🔴 Déconnecté :", socket.id);
       users.delete(socket.id);
