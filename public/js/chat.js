@@ -2,9 +2,6 @@ if (!sessionStorage.getItem("username") || !sessionStorage.getItem("avatar")) {
   window.location.href = "/login.html";
 }
 
-const avatarSrc = sessionStorage.getItem("avatar");
-const username = sessionStorage.getItem("username");
-
 window.logout = function () {
   sessionStorage.clear();
   window.location.href = "/login.html";
@@ -52,6 +49,9 @@ function parseMessageWithLinks(text) {
 
 document.addEventListener("DOMContentLoaded", function () {
   const socket = io({ transports: ["websocket"] });
+
+  const avatarSrc = sessionStorage.getItem("avatar");
+  const username = sessionStorage.getItem("username");
 
   socket.emit("userJoined", { username, avatar: avatarSrc });
 
@@ -195,28 +195,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.sendImage = function (event) {
     const file = event.target.files[0];
-    if (!file) return;
-
-    const supportedTypes = [
-      "image/png", "image/jpeg", "image/jpg", "image/gif",
-      "image/webp", "image/bmp", "image/svg+xml", "image/x-icon", "image/tiff"
-    ];
-
-    if (!supportedTypes.includes(file.type)) {
-      alert("Format non pris en charge : " + file.type);
-      return;
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const imageData = e.target.result;
+        socket.emit("image", {
+          username,
+          avatar: avatarSrc,
+          image: imageData
+        });
+      };
+      reader.readAsDataURL(file);
     }
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const imageData = e.target.result;
-      socket.emit("image", {
-        username,
-        avatar: avatarSrc,
-        image: imageData
-      });
-    };
-    reader.readAsDataURL(file);
   };
 
   window.previewImage = function(src) {
