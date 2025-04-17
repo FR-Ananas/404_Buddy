@@ -16,11 +16,16 @@ function login() {
     return;
   }
 
-  // ✅ Si pas d'image → image par défaut
+  // ✅ Si aucune image → avatar par défaut
   if (!file) {
     sessionStorage.setItem("username", name);
     sessionStorage.setItem("avatar", "/img/noPictures.png");
-    launchLoading();
+
+    document.getElementById('xpLoaderPopup').style.display = 'flex';
+
+    setTimeout(() => {
+      window.location.href = "/chat.html";
+    }, 2600);
     return;
   }
 
@@ -28,14 +33,13 @@ function login() {
   reader.onload = function(e) {
     sessionStorage.setItem("username", name);
     sessionStorage.setItem("avatar", e.target.result);
-    launchLoading();
-  };
-  reader.readAsDataURL(file);
-}
 
-function launchLoading() {
-  document.getElementById('xpLoaderPopup').style.display = 'flex';
-  setTimeout(() => {
-    window.location.href = "/chat.html";
-  }, 2600);
+    document.getElementById('xpLoaderPopup').style.display = 'flex';
+
+    setTimeout(() => {
+      window.location.href = "/chat.html";
+    }, 2600);
+  };
+
+  reader.readAsDataURL(file);
 }
