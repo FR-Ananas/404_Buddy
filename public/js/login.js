@@ -29,17 +29,18 @@ function login() {
     return;
   }
 
+  // ✅ On attend que le fichier soit lu avant redirection
   const reader = new FileReader();
-  reader.onload = function(e) {
+  reader.onload = function (e) {
     sessionStorage.setItem("username", name);
-    sessionStorage.setItem("avatar", e.target.result);
+    sessionStorage.setItem("avatar", e.target.result);  // base64
 
+    // Afficher un loader ou animation pendant le delay
     document.getElementById('xpLoaderPopup').style.display = 'flex';
 
     setTimeout(() => {
       window.location.href = "/chat.html";
     }, 2600);
   };
-
   reader.readAsDataURL(file);
 }
